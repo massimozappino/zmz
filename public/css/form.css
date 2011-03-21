@@ -1,0 +1,104 @@
+
+
+.zend_form {
+    padding:0;
+    min-width: 480px;
+    overflow:auto;
+}
+
+.zend_form li {
+    list-style-type: none;
+}
+
+
+dl.zend dt, dd {
+    min-height: 30px;
+}
+
+dl.zend_form dt {
+    padding:0;
+    clear:both;
+    width:30%;
+    float:left;
+    text-align:right;
+    margin:5px 5px 5px 0;
+}
+
+dl.zend_form dd {
+    padding:0;
+    float:left;
+    width:65%;
+
+    margin:5px 2px 5px 0;
+}
+
+dl.zend_form dd ul.errors {
+    padding-bottom: 8px;
+    margin: 0;
+}
+
+dl.zend_form dd ul.errors li {}
+
+dl.zend_form dt {
+    padding-top: 4px;
+}
+
+dl.zend_form dt label.required:before {
+    content:'* '; color: red;
+}
+
+dl.zend_form dt label.required {
+    font-weight: bold;
+}
+
+dl.zend_form dt label.optional:before{
+    content:' ';
+}
+dl.zend_form dt label.optional{
+    font-weight: normal;
+}
+
+dl.zend_form input {
+    font-size: 15px;
+    padding: 4px;
+}
+
+dl.zend_form dd p.description {
+    color: gray;
+}
+
+.default-field {
+    font-size: 15px;
+    padding: 3px;
+    -moz-border-radius:3px;-webkit-border-radius:3px;-khtml-border-radius:3px;border-radius:3px;
+}
+
+input.default-field {
+    width: 280px;
+}
+
+
+select.default-field {
+    width: 295px;
+}
+
+textarea.default-field {
+    width: 295px;
+}
+
+
+.required {
+    font-weight: bold;
+}
+
+.errors {
+    color: red;
+}
+
+input, textarea, select, button {
+    border: 1px solid gray;
+}
+
+input.error, textarea.error, select.error, button.error {
+    border: 1px solid red;
+}

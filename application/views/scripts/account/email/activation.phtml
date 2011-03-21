@@ -1,0 +1,19 @@
+<?php $projectConfig = Zend_Registry::get('projectConfig'); ?>
+
+<?= $this->translate()->_('Hi') ?> <?= $this->username ?>,
+
+<?= $this->translate()->_('thanks for your registration.') ?>
+
+
+<?= $this->translate()->_('In order to complete your registration you have confirm your email address by following this link.') ?>
+
+
+
+<?= $this->translate()->_('Username') ?>:   <?= $this->username ?>
+
+<?= $this->translate()->_('Email') ?>:     <?= $this->email ?>
+
+<?= $this->translate()->_('Activation link') ?>: <?= $projectConfig->siteUrl ?><?= $this->url(array('controller' => 'account', 'action' => 'activation', 'id' => $this->id, 'code' => $this->code), 'default', true) ?>
+
+<?= $this->partial('partials/_emailFooter.phtml') ?>
+

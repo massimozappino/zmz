@@ -1,0 +1,3 @@
+/*
+ * Custon javascript functions
+ */

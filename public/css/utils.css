@@ -1,0 +1,172 @@
+.text-small {
+    font-size: 10px;
+}
+
+.text-big {
+    font-size: 13px;
+}
+
+.normal {
+    font-weight: normal;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.no-underline {
+    text-decoration: none;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.disabled {
+
+}
+
+.no-decoration {
+    text-decoration: none;
+}
+
+.border {
+    border: 1px solid gray;
+}
+
+.width100 {
+    width: 100%;
+}
+
+
+.hidden {
+    display : none;
+}
+
+
+.nobr {
+    white-space : nowrap;
+}
+
+.align-center {
+    margin: 0px auto 0px auto;
+}
+
+.center {
+    text-align: center;
+}
+
+
+.left {
+    text-align: left;
+}
+
+
+.right {
+    text-align: right;
+}
+
+
+.float-left {
+    float: left;
+}
+
+
+.float-right {
+    float: right;
+}
+
+.clear {
+    clear: both;
+}
+
+.clear-l {
+	clear: left;
+}
+
+.clear-r {
+	clear: right;
+}
+
+.clear-float:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+.clear-float {display: inline-block;}
+* html .clear-float {height: 1%;}
+.clear-float {display: block;}
+
+/*
+.clear_float:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+
+* html .clear_float {
+    height: 1%;
+}
+*/
+
+.normal {
+    text-decoration: none;
+    font-weight: normal;
+}
+
+.block {
+    display: block;
+}
+
+.scroll {
+    overflow: auto;
+}
+
+.width100 {
+    width: 100%;
+}
+
+.no-display {
+    position: absolute;
+    left: -9999px;
+    width: 1em;
+    overflow: hidden;
+}
+
+.strong {
+    font-weight: bold;
+}
+
+.pointer {
+    cursor:pointer;
+}
+
+.spacer {
+    height: 10px;
+    display:block;
+}
+
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
+}
+
+.gray {
+    color: gray;
+}

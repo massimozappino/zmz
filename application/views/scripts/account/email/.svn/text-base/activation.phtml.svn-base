@@ -1,0 +1,17 @@
+<?= $this->translate()->_('Hi') ?> <?= $this->username ?>,
+
+<?= $this->translate()->_('thanks for your registration.') ?>
+
+
+<?= $this->translate()->_('In order to complete your registration you have confirm your email address by following this link.') ?>
+
+
+
+<?= $this->translate()->_('Username') ?>:   <?= $this->username ?>
+
+<?= $this->translate()->_('Email') ?>:     <?= $this->email ?>
+
+<?= $this->translate()->_('Activation link') ?>: <?= $this->url(array('action' => 'activation', 'id' => $this->id, 'code' => $this->code), 'default-account', true) ?>
+
+<?= $this->partial('partials/_emailFooter.phtml') ?>
+

@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/tagmycode/!svn/ver/489/trunk/application/views/scripts/account/email
+END
+activation.phtml
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/tagmycode/!svn/ver/446/trunk/application/views/scripts/account/email/activation.phtml
+END
+lostpassword.phtml
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/tagmycode/!svn/ver/489/trunk/application/views/scripts/account/email/lostpassword.phtml
+END
+passwordreset.phtml
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/tagmycode/!svn/ver/316/trunk/application/views/scripts/account/email/passwordreset.phtml
+END
+changepassword.phtml
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/tagmycode/!svn/ver/316/trunk/application/views/scripts/account/email/changepassword.phtml
+END
