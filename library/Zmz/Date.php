@@ -173,7 +173,7 @@ class Zmz_Date
         return $format;
     }
 
-    public static function convertDateFormatToJquery($format = null)
+    public static function getJqueryDatePickerFormat($format = null)
     {
         if (!$format) {
             $format = self::getLocaleDateFormat();

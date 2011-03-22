@@ -105,8 +105,7 @@ CREATE TABLE  `zmz`.`users` (
 
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 LOCK TABLES `users` WRITE;
-INSERT INTO `zmz`.`users` VALUES  (8,'massimo.zappino','123456','massimo.zappino@gmail.com',NULL,NULL,'en','Europe/Rome',1,'2011-03-19 10:05:56','2011-03-19 10:06:14',NULL,NULL,NULL,NULL,NULL,2),
- (9,'massimo.zappino666','111111','qqq@rrrrr.it',NULL,NULL,'it_IT','Europe/Rome',0,'2011-03-19 16:15:41',NULL,'152f9afd97a3dd4d9033a224bda1dccff590e80b','2011-03-19 16:15:41',NULL,NULL,NULL,2);
+INSERT INTO `zmz`.`users` VALUES  (8,'massimo.zappino','123456','massimo.zappino@gmail.com',NULL,NULL,'en','Europe/Rome',1,'2011-03-19 10:05:56','2011-03-19 10:06:14',NULL,NULL,NULL,NULL,NULL,2);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 

@@ -257,6 +257,11 @@ class Zmz_Culture
         return $locale;
     }
 
+    public static function getLanguage()
+    {
+        return self::getLocale()->getLanguage();
+    }
+
     /**
      *
      * @return string $timezone
