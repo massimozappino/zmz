@@ -130,10 +130,7 @@ class AccountController extends Zmz_Controller_Action
                 try {
                     $db->beginTransaction();
 
-                    $code = $usersModel->generateCode();
-                    $userRow->code = $code;
-                    $userRow->date_code = Zmz_Date::getSqlDateTime();
-                    $userRow->save();
+                    $userRow->setCode(true);
 
                     // Mail activation
                     $view = $this->view;
@@ -233,6 +230,79 @@ class AccountController extends Zmz_Controller_Action
         $this->view->form = $form;
     }
 
+    public function changeemailAction()
+    {
+        $this->view->title = Zmz_Translate::_('Change email');
+        Model_Acl::requireLogin();
+
+        $userRow = Model_Acl::getUserRow();
+        $form = new Form_Changeemail();
+
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+
+            if ($form->isValid($postData)) {
+                $values = $form->getValues();
+
+                $usersModel = new Model_Users();
+
+                // check if email exists
+                if ($usersModel->checkEmailExists($values['email'])
+                        && ($userRow->new_email != $values['email'])) {
+                    $elementEmail = $form->getElement('email');
+                    $elementEmail->addError(Zmz_Translate::_('Email address already exist'));
+                    $elementEmail->markAsError();
+                    $form->markAsError();
+                }
+
+                // check password
+                if (!$userRow->isPasswordValid($values['password'])) {
+                    $elementPassword = $form->getElement('password');
+                    $elementPassword->addError(Zmz_Translate::_('Password is not valid'));
+                    $elementPassword->markAsError();
+                    $form->markAsError();
+                }
+
+                $db = Zend_Registry::get('db');
+                if (!$form->isErrors()) {
+                    try {
+                        $db->beginTransaction();
+
+                        $userRow->new_email = $values['email'];
+                        $userRow->code_email = Model_Users::generateCode();
+                        $userRow->date_code_email = Zmz_Date::getSqlDateTime();
+                        $userRow->save();
+
+                        // send notification email
+                        $view = $this->view;
+                        $view->username = $userRow->username;
+                        $bodyText = $view->render('account/email/changeemail.phtml');
+
+                        $mail = Zmz_Mail::getInstance();
+                        $mail->setBodyText($bodyText);
+                        $mail->addTo($userRow->email);
+                        $mail->setSubject(Zmz_Translate::_('Password has changed')); // TODO text
+                        $mail->send();
+
+                        $db->commit();
+                        Zmz_Messenger::getInstance()->addSuccess(Zmz_Translate::_('Your email address has been changed'), true); // TODO text
+                        $this->_redirect('account');
+                    } catch (Exception $e) {
+                        $db->rollBack();
+                        throw new Exception($e->getMessage());
+                    }
+                }
+            }
+        }
+
+        $this->view->form = $form;
+    }
+
+    public function confirmemailAction()
+    {
+        dd('todo');
+    }
+
     public function signinAction()
     {
         $this->view->title = Zmz_Translate::_('Sign in');
@@ -269,8 +339,7 @@ class AccountController extends Zmz_Controller_Action
                 }
 
                 // check if email exists
-                $userRow = $usersModel->findByEmail($values['email']);
-                if ($userRow) {
+                if ($usersModel->checkEmailExists($values['email'])) {
                     $elementEmail = $form->getElement('email');
                     $elementEmail->addError(Zmz_Translate::_('Email address already exist'));
                     $elementEmail->markAsError();
@@ -337,7 +406,7 @@ class AccountController extends Zmz_Controller_Action
             $userRow = $usersModel->findById($id);
 
             if ($userRow) {
-                if ($userRow->code == $code && strlen($userRow->code) == $projectConfig->code_length) {
+                if ($userRow->checkCode() == $code) {
                     $form = new Form_Changepassword();
                     $form->setAction($this->_helper->url('resetpassword/id/' . $userRow->user_id . '/code/' . $code));
                     $form->removeElement('old_password');
@@ -366,8 +435,7 @@ class AccountController extends Zmz_Controller_Action
                                     $db->beginTransaction();
 
                                     $userRow->password = Model_Users::hashPassword($values['password']);
-                                    $userRow->code = null;
-                                    $userRow->date_code = null;
+                                    $userRow->setCode();
                                     $userRow->save();
 
                                     // send notification email
@@ -436,7 +504,6 @@ class AccountController extends Zmz_Controller_Action
             $usersModel = new Model_Users();
             $user = $usersModel->findById($id);
 
-
             if (strlen($code) != $projectConfig->code_length) {
                 throw new Exception('Activation code length is not valid');
             }
@@ -449,7 +516,7 @@ class AccountController extends Zmz_Controller_Action
                 throw new Exception('User is already active');
             }
 
-            if ($code != $user->code) {
+            if ($code != $user->checkCode()) {
                 throw new Exception('Activation code is not valid');
             }
         } catch (Exception $e) {
@@ -461,8 +528,7 @@ class AccountController extends Zmz_Controller_Action
         try {
             $db->beginTransaction();
             $user->date_activation = Zmz_Date::getSqlDateTime();
-            $user->code = null;
-            $user->date_code = null;
+            $user->clearCode();
             $user->status = Model_Users::STATUS_ACTIVE;
             $user->save();
 

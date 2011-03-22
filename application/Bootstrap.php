@@ -218,8 +218,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Zend_Registry::set('projectConfig', $projectConfig);
     }
 
-
-
     protected function _initDefaultTimezone()
     {
         $projectConfig = Zend_Registry::get('projectConfig');
@@ -227,7 +225,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         date_default_timezone_set($defaultTimezone);
     }
-    
+
     /**
      * Must be the last bootstrap method
      */
@@ -242,5 +240,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             Zmz_Culture::setCulture($userLocale, $userTimezone, true);
         }
     }
+
 }
 

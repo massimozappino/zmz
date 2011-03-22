@@ -20,7 +20,7 @@ class Model_Users extends Zend_Db_Table_Abstract
         $row->timezone = Zmz_Culture::getTimezone();
         $row->status = self::STATUS_INACTIVE;
         $row->date_registration = $nowSql;
-        $row->code = $this->generateCode();
+        $row->code = self::generateCode();
         $row->date_code = $nowSql;
         $row->group_id = Model_Groups::USER;
 
@@ -101,6 +101,16 @@ class Model_Users extends Zend_Db_Table_Abstract
         $row = $this->fetchRow($select);
 
         return $row;
+    }
+
+    public function checkEmailExists($email)
+    {
+        $select = $this->select()
+                        ->where('email = ?', $email)
+                        ->orWhere('new_email = ?', $email);
+        $row = $this->fetchRow($select);
+
+        return (bool) $row;
     }
 
     public static function hashPassword($password)

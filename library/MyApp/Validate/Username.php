@@ -23,7 +23,6 @@ class MyApp_Validate_Username extends Zend_Validate_Abstract
         self::TOO_SHORT => "Username is too short",
         self::TOO_LONG => "Username is too long"
     );
-
     private $projectConfig;
 
     public function __construct()
@@ -38,10 +37,6 @@ class MyApp_Validate_Username extends Zend_Validate_Abstract
      */
     public function isValid($value)
     {
-//        if (!preg_match('/^[A-Za-z0-9_.]*$/', $value)) {
-//            $this->_error(self::INVALID);
-//            return false;
-//        }
         $stringLengthValidatorMin = new Zend_Validate_StringLength(array('min' => $this->projectConfig->min_username_length));
 
         if (!$stringLengthValidatorMin->isValid($value)) {
@@ -55,13 +50,10 @@ class MyApp_Validate_Username extends Zend_Validate_Abstract
             return false;
         }
 
-                if (!preg_match('/^[A-Za-z][a-zA-Z0-9_]*\.?[a-zA-Z0-9_]*$/', $value)) {
+        if (!preg_match('/^[A-Za-z][a-zA-Z0-9_]*\.?[a-zA-Z0-9_]*$/', $value)) {
             $this->_error(self::INVALID);
             return false;
         }
-
-
-
 
         if ($this->_isReservedUsername($value)) {
             $this->_error(self::RESERVED);
@@ -93,12 +85,13 @@ class MyApp_Validate_Username extends Zend_Validate_Abstract
 
         // routes controller
         $routerConfig = Zend_Registry::get('routerConfig');
-        foreach ($routerConfig->routes as $k => $v) {
-            $routeName = explode('/', $v->route, 2);
-            $invalidUsernames[$k] = $k;
-            $invalidUsernames[$routeName[0]] = $routeName[0];
+        if ($routerConfig->routes) {
+            foreach ($routerConfig->routes as $k => $v) {
+                $routeName = explode('/', $v->route, 2);
+                $invalidUsernames[$k] = $k;
+                $invalidUsernames[$routeName[0]] = $routeName[0];
+            }
         }
-
         // controller for default module
         $controllersDirectory = APPLICATION_PATH . '/controllers';
         $directory = opendir($controllersDirectory);
