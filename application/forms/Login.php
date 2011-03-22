@@ -33,7 +33,7 @@ class Form_Login extends Zmz_Form
         $redirect = new Zend_Form_Element_Hidden('redirect');
         $redirect->addDecorator('Hidden');
 
-        $submit = new Zend_Form_Element_Submit('submitss');
+        $submit = new Zend_Form_Element_Submit('submits');
         $submit->setLabel(Zmz_Translate::_('Login'));
 
         $this->addElements(array(
