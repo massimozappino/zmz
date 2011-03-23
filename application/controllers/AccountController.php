@@ -237,6 +237,7 @@ class AccountController extends Zmz_Controller_Action
 
         $userRow = Model_Acl::getUserRow();
         $form = new Form_Changeemail();
+        $form->getElement('old_email')->setValue($userRow->email);
 
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
@@ -276,12 +277,17 @@ class AccountController extends Zmz_Controller_Action
                         // send notification email
                         $view = $this->view;
                         $view->username = $userRow->username;
+                        $view->user_id = $userRow->user_id;
+                        $view->oldEmail = $userRow->email;
+                        $view->newEmail = $userRow->new_email;
+                        $view->code = $userRow->code_email;
+
                         $bodyText = $view->render('account/email/changeemail.phtml');
 
                         $mail = Zmz_Mail::getInstance();
                         $mail->setBodyText($bodyText);
                         $mail->addTo($userRow->email);
-                        $mail->setSubject(Zmz_Translate::_('Password has changed')); // TODO text
+                        $mail->setSubject(Zmz_Translate::_('Confirm your email address'));
                         $mail->send();
 
                         $db->commit();
@@ -300,7 +306,53 @@ class AccountController extends Zmz_Controller_Action
 
     public function confirmemailAction()
     {
-        dd('todo');
+        // TODO
+        $this->view->title = Zmz_Translate::_('Confirm email');
+
+        Model_Acl::requireLogin();
+        try {
+            $db = Zend_Registry::get('db');
+            $projectConfig = Zend_Registry::get('projectConfig');
+
+            $code = $this->getRequest()->getParam('code');
+            $id = $this->getRequest()->getParam('id');
+            if (!$id) {
+                throw new Zend_Controller_Action_Exception('Id is null');
+            }
+
+            $usersModel = new Model_Users();
+            $user = $usersModel->findById($id);
+
+            if (strlen($code) != $projectConfig->code_length) {
+                throw new Zend_Controller_Action_Exception('Activation code length is not valid');
+            }
+
+            if (!$user) {
+                throw new Zend_Controller_Action_Exception('User not found');
+            }
+
+            if ($code != $user->checkEmailCode()) {
+                throw new Zend_Controller_Action_Exception('Activation code is not valid');
+            }
+        } catch (Zend_Controller_Action_Exception $e) {
+            $messenger = Zmz_Messenger::getInstance();
+            $messenger->addError(Zmz_Translate::_("Confirmation code has expired"), true);
+            $this->_redirect($this->_helper->url('index', 'account'));
+        }
+
+        try {
+            $db->beginTransaction();
+            $user->email = $user->new_email;
+            $user->clearNewEmail(false);
+            $user->save();
+
+            $db->commit();
+
+            $this->_redirect($this->_helper->url('index', 'account'));
+        } catch (Exception $e) {
+            $db->rollBack();
+            throw new Exception($e->getMessage());
+        }
     }
 
     public function signinAction()

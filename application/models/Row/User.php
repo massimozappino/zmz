@@ -29,15 +29,13 @@ class Model_Row_User extends Zend_Db_Table_Row
             $validCode = false;
         }
 
-        if (Zmz_Date::getDate() > $dateCode->addHour(24)) {
+        if (Zmz_Date::getDate() > $dateCode->addHour($projectConfig->activation_link_duration)) {
             $validCode = false;
         }
 
         if (!$validCode) {
             $code = null;
-            $this->code = $code;
-            $this->date_code = null;
-            $this->save();
+            $this->clearCode(true);
         }
 
         return $code;
@@ -67,6 +65,55 @@ class Model_Row_User extends Zend_Db_Table_Row
     {
         $this->code = null;
         $this->date_code = null;
+        if ($save) {
+            $this->save();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get the current confirm code and check if the date_code_email is valid
+     *
+     * @return string
+     */
+    public function checkEmailCode()
+    {
+        $projectConfig = Zend_Registry::get('projectConfig');
+        $validCode = true;
+
+        $dateCodeEmail = Zmz_Date::getDateFromDb($this->date_code_email);
+        $code = $this->code_email;
+
+        if (strlen($code) != $projectConfig->code_length) {
+            $validCode = false;
+        }
+
+        if (!$this->new_email) {
+            $validCode = false;
+        }
+
+        if (Zmz_Date::getDate() > $dateCodeEmail->addHour($projectConfig->activation_link_duration)) {
+            $validCode = false;
+            $this->clearNewEmail(true);
+        }
+
+        if (!$validCode) {
+            $code = null;
+        }
+
+        return $code;
+    }
+
+    /**
+     * Clear "Change email" parameters
+     * @return Model_Row_User
+     */
+    public function clearNewEmail($save = false)
+    {
+        $this->new_email = null;
+        $this->code_email = null;
+        $this->date_code_email = null;
         if ($save) {
             $this->save();
         }
