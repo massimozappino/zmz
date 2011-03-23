@@ -2,13 +2,16 @@
 
 <?= $this->translate()->_('Hi') ?> <?= $this->username ?>,
 
-<?= $this->translate()->_('we have received your password reset request. To reset your password, visit the link below within 24 hours.') ?>
+<?= $this->translate()->_(Zmz_String::format("we have received your request to change email. To change your email address, visit the confirmation link below within {0} hours.", $projectConfig->activation_link_duration)) ?>
 
 
 <?= $this->translate()->_('Username') ?>:   <?= $this->username ?>
 
-<?= $this->translate()->_('Email') ?>:     <?= $this->email ?>
+<?= $this->translate()->_('Old email') ?>:     <?= $this->oldEmail ?>
 
-<?= Zmz_Translate::_('Password reset link') ?>: <?= $projectConfig->siteUrl ?><?= $this->url(array('controller' => 'account', 'action' => 'confirmemail', 'id' => $this->user_id, 'code' => $this->code), 'default', true) ?>
+<?= $this->translate()->_('New email') ?>:     <?= $this->newEmail ?>
+
+
+<?= Zmz_Translate::_('Confirmation link') ?>: <?= $projectConfig->siteUrl ?><?= $this->url(array('controller' => 'account', 'action' => 'confirmemail', 'id' => $this->user_id, 'code' => $this->code), 'default', true) ?>
 
 <?= $this->partial('partials/_emailFooter.phtml') ?>
