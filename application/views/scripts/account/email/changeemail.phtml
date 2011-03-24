@@ -1,0 +1,17 @@
+<?php $projectConfig = Zend_Registry::get('projectConfig'); ?>
+
+<?= $this->translate()->_('Hi') ?> <?= $this->username ?>,
+
+<?= $this->translate()->_(Zmz_String::format("we have received your request to change email. To change your email address, visit the confirmation link below within {0} hours.", $projectConfig->activation_link_duration)) ?>
+
+
+<?= $this->translate()->_('Username') ?>:   <?= $this->username ?>
+
+<?= $this->translate()->_('Old email') ?>:     <?= $this->oldEmail ?>
+
+<?= $this->translate()->_('New email') ?>:     <?= $this->newEmail ?>
+
+
+<?= Zmz_Translate::_('Confirmation link') ?>: <?= $projectConfig->siteUrl ?><?= $this->url(array('controller' => 'account', 'action' => 'confirmemail', 'id' => $this->user_id, 'code' => $this->code), 'default', true) ?>
+
+<?= $this->partial('partials/_emailFooter.phtml') ?>

@@ -9,13 +9,16 @@ class Form_Changeemail extends Zmz_Form
 
         $this->setName('formChangeemail');
 
+        $oldEmail = new MyApp_Form_Element_String('old_email');
+        $oldEmail->setLabel(Zmz_Translate::_('Old email'));
+
         $email = new MyApp_Form_Element_Email('email');
         $email->setLabel(Zmz_Translate::_('Email'))
                 ->setDescription(Zmz_Translate::_('Will never be displayed'));
 
         $password = new MyApp_Form_Element_Password('password');
         $password->setLabel(Zmz_Translate::_('Password'))
-                                ->setDescription(Zmz_Translate::_('Enter your account password'));
+                ->setDescription(Zmz_Translate::_('Enter your account password'));
 
 
 
@@ -24,6 +27,7 @@ class Form_Changeemail extends Zmz_Form
 
         $this->addElements(
                 array(
+                    $oldEmail,
                     $email,
                     $password,
                     $submit
@@ -31,4 +35,3 @@ class Form_Changeemail extends Zmz_Form
     }
 
 }
-
