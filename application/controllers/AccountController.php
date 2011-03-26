@@ -55,7 +55,7 @@ class AccountController extends Zmz_Controller_Action
                             $errorMessage = Zmz_Translate::_('Invalid username or password');
                             break;
                         case Zend_Auth_Result::FAILURE_IDENTITY_AMBIGUOUS:
-                            $errorMessage = Zmz_Translate::_('Account not yet confirmed');
+                            $errorMessage = Zmz_Translate::_('Account is not activated yet');
                             break;
                     }
                     if ($errorMessage) {

@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-14 15:39+0100\n"
+"POT-Creation-Date: 2011-03-26 15:29+0100\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Massimo Zappino <massimo.zappino@gtalarm.it>\n"
+"Last-Translator: Massimo Zappino <massimo.zappino@gmail.com>\n"
 "Language-Team: \n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "X-Poedit-Language: English\n"
 "X-Poedit-Country: UNITED KINGDOM\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -17,6 +17,10 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ../../application\n"
 "X-Poedit-SearchPath-1: ../../library\n"
+
+#: ../../application/controllers/ContactController.php:24
+msgid "Form is not valid"
+msgstr ""
 
 #: ../../application/controllers/AccountController.php:18
 msgid "Login"
@@ -28,5 +32,321 @@ msgstr ""
 
 #: ../../application/controllers/AccountController.php:58
 msgid "Account not yet confirmed"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:96
+#: ../../application/controllers/AccountController.php:146
+#: ../../application/controllers/AccountController.php:162
+msgid "Lost password"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:117
+#: ../../application/controllers/AccountController.php:617
+msgid "Email address not found"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:124
+msgid "Account is not activated yet"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:170
+#: ../../application/forms/Changepassword.php:31
+msgid "Change password"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:185
+msgid "Old password is not valid"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:193
+#: ../../application/controllers/AccountController.php:388
+#: ../../application/controllers/AccountController.php:480
+msgid "Password do not match"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:214
+#: ../../application/controllers/AccountController.php:501
+msgid "Password has changed"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:218
+#: ../../application/controllers/AccountController.php:508
+msgid "Your password has been changed"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:235
+msgid "Change email"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:254
+#: ../../application/controllers/AccountController.php:396
+msgid "Email address already exist"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:262
+msgid "Password is not valid"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:290
+msgid "Confirm your email address"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:294
+msgid "We have received your request to change email. Please check the instructions that we sent to your inbox to activate your new email"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:309
+msgid "Confirm email"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:338
+msgid "Confirmation code is not valid or has expired"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:349
+msgid "Your email has been successfully changed"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:360
+#: ../../application/controllers/AccountController.php:418
+#: ../../application/controllers/AccountController.php:641
+msgid "Sign in"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:380
+#: ../../application/controllers/AccountController.php:723
+msgid "Username is not available"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:436
+msgid "Registration complete"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:444
+#: ../../application/controllers/AccountController.php:532
+msgid "Reset password"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:541
+msgid "Account activation"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:576
+msgid "Activation code has expired"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:600
+#: ../../application/controllers/AccountController.php:653
+msgid "Resend activation code"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:624
+msgid "Account already activated"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:658
+msgid "Edit profile"
+msgstr ""
+
+#: ../../application/controllers/AccountController.php:687
+msgid "Your profile has been updated"
+msgstr ""
+
+#: ../../application/controllers/LocaleController.php:11
+msgid "Choose your language"
+msgstr ""
+
+#: ../../application/forms/Locale.php:14
+msgid "Language"
+msgstr ""
+
+#: ../../application/forms/Locale.php:22
+msgid "Timezone"
+msgstr ""
+
+#: ../../application/forms/Locale.php:30
+msgid "Save"
+msgstr ""
+
+#: ../../application/forms/Changepassword.php:13
+msgid "Username"
+msgstr ""
+
+#: ../../application/forms/Changepassword.php:17
+#: ../../application/forms/Contact.php:25
+msgid "Email"
+msgstr ""
+
+#: ../../application/forms/Changepassword.php:20
+msgid "Old password"
+msgstr ""
+
+#: ../../application/forms/Changepassword.php:25
+msgid "New password"
+msgstr ""
+
+#: ../../application/forms/Changepassword.php:28
+msgid "Confirm password"
+msgstr ""
+
+#: ../../application/forms/Contact.php:17
+msgid "Name"
+msgstr ""
+
+#: ../../application/forms/Contact.php:34
+msgid "Message"
+msgstr ""
+
+#: ../../application/forms/Contact.php:41
+msgid "Send"
+msgstr ""
+
+#: ../../application/forms/Lostpassword.php:13
+msgid "Send me instructions"
+msgstr ""
+
+#: ../../application/forms/Changeemail.php:13
+msgid "Old email"
+msgstr ""
+
+#: ../../application/forms/Changeemail.php:17
+msgid "Will never be displayed"
+msgstr ""
+
+#: ../../application/forms/Changeemail.php:20
+msgid "Password"
+msgstr ""
+
+#: ../../application/forms/Changeemail.php:21
+msgid "Enter your account password"
+msgstr ""
+
+#: ../../application/forms/Signin.php:17
+msgid "Use {0} to {1} characters and start with a letter. You may use letters, numbers, underscores, and one dot (.)"
+msgstr ""
+
+#: ../../application/forms/Signin.php:24
+msgid "Password is case sensitive, use {0} to {1} characters"
+msgstr ""
+
+#: ../../application/forms/Signin.php:30
+msgid "Rewrite your password"
+msgstr ""
+
+#: ../../application/forms/Signin.php:34
+msgid "A valid email address is required, we'll send you a confirmation, email will not be displayed to other users"
+msgstr ""
+
+#: ../../application/forms/Login.php:13
+msgid "Username or email"
+msgstr ""
+
+#: ../../application/forms/Login.php:31
+msgid "Keep me logged in"
+msgstr ""
+
+#: ../../library/Zmz/View/Helper/HowLongAgo.php:22
+msgid "ago"
+msgstr ""
+
+#: ../../application/layouts/scripts/default.phtml:59
+msgid "Change your settings"
+msgstr ""
+
+#: ../../application/layouts/scripts/default.phtml:60
+msgid "Loading"
+msgstr ""
+
+#: ../../application/layouts/scripts/default.phtml:67
+msgid "Logout"
+msgstr ""
+
+#: ../../application/layouts/scripts/default.phtml:78
+msgid "Home"
+msgstr ""
+
+#: ../../application/layouts/scripts/default.phtml:79
+msgid "Contact us"
+msgstr ""
+
+#: ../../application/views/scripts/account/resetpasswordcomplete.phtml:1
+msgid "Proceed"
+msgstr ""
+
+#: ../../application/views/scripts/account/login.phtml:2
+msgid "Lost password?"
+msgstr ""
+
+#: ../../application/views/scripts/account/lostpasswordcomplete.phtml:1
+msgid "We have sent you an email containing instructions to reset your password"
+msgstr ""
+
+#: ../../application/views/scripts/account/resendactivation.phtml:1
+msgid "If you lost your account activation code, please enter the email during sign up at the field below. We will send it to you again."
+msgstr ""
+
+#: ../../application/views/scripts/account/registrationcomplete.phtml:1
+msgid "Registration has been completed."
+msgstr ""
+
+#: ../../application/views/scripts/account/registrationcomplete.phtml:2
+msgid "You must activate your account by following the link that you will receive shortly in your inbox."
+msgstr ""
+
+#: ../../application/views/scripts/account/resendactivationcomplete.phtml:1
+msgid "We have sent you an email containing the activation link"
+msgstr ""
+
+#: ../../application/views/scripts/account/index.phtml:2
+msgid "Edit account"
+msgstr ""
+
+#: ../../application/views/scripts/account/email/lostpassword.phtml:3
+#: ../../application/views/scripts/account/email/passwordreset.phtml:1
+#: ../../application/views/scripts/account/email/changeemail.phtml:3
+#: ../../application/views/scripts/account/email/activation.phtml:3
+#: ../../application/views/scripts/account/email/changepassword.phtml:1
+msgid "Hi"
+msgstr ""
+
+#: ../../application/views/scripts/account/email/lostpassword.phtml:12
+msgid "Password reset link"
+msgstr ""
+
+#: ../../application/views/scripts/account/email/passwordreset.phtml:3
+#: ../../application/views/scripts/account/email/changepassword.phtml:3
+msgid "this email is just a reminder to let you know that the password on your account has been changed."
+msgstr ""
+
+#: ../../application/views/scripts/account/email/changeemail.phtml:12
+msgid "New email"
+msgstr ""
+
+#: ../../application/views/scripts/account/email/changeemail.phtml:15
+msgid "Confirmation link"
+msgstr ""
+
+#: ../../application/views/scripts/account/email/activation.phtml:5
+msgid "thanks for your registration."
+msgstr ""
+
+#: ../../application/views/scripts/account/email/activation.phtml:8
+msgid "In order to complete your registration you have confirm your email address by following this link."
+msgstr ""
+
+#: ../../application/views/scripts/account/email/activation.phtml:16
+msgid "Activation link"
+msgstr ""
+
+#: ../../application/views/scripts/partials/_emailFooter.phtml:3
+msgid "Thanks"
+msgstr ""
+
+#: ../../application/views/scripts/partials/_emailFooter.phtml:8
+msgid "Please don't reply to this email, this is an autogenerated message."
+msgstr ""
+
+#: ../../application/views/scripts/partials/_emailFooter.phtml:10
+msgid "Originating IP address"
 msgstr ""
 
