@@ -291,7 +291,7 @@ class AccountController extends Zmz_Controller_Action
                         $mail->send();
 
                         $db->commit();
-                        Zmz_Messenger::getInstance()->addSuccess(Zmz_Translate::_('Your email address has been changed'), true); // TODO text
+                        Zmz_Messenger::getInstance()->addSuccess(Zmz_Translate::_('We have received your request to change email. Please check the instructions that we sent to your inbox to activate your new email'), true);
                         $this->_redirect('account');
                     } catch (Exception $e) {
                         $db->rollBack();
@@ -306,7 +306,6 @@ class AccountController extends Zmz_Controller_Action
 
     public function confirmemailAction()
     {
-        // TODO
         $this->view->title = Zmz_Translate::_('Confirm email');
 
         Model_Acl::requireLogin();
@@ -336,7 +335,7 @@ class AccountController extends Zmz_Controller_Action
             }
         } catch (Zend_Controller_Action_Exception $e) {
             $messenger = Zmz_Messenger::getInstance();
-            $messenger->addError(Zmz_Translate::_("Confirmation code has expired"), true);
+            $messenger->addError(Zmz_Translate::_("Confirmation code is not valid or has expired"), true);
             $this->_redirect($this->_helper->url('index', 'account'));
         }
 
@@ -347,6 +346,7 @@ class AccountController extends Zmz_Controller_Action
             $user->save();
 
             $db->commit();
+            Zmz_Messenger::getInstance()->addESuccess(Zmz_Translate::_("Your email has been successfully changed"), true);
 
             $this->_redirect($this->_helper->url('index', 'account'));
         } catch (Exception $e) {
