@@ -53,8 +53,11 @@ class Zmz_Date
      * @param string $defaultDate date to use if $date is null
      * @return Zend_Date
      */
-    public static function getDateFromDb($date, $defaultDate = "1970-01-01 00:00:00")
-    {
+    public static function getDateFromDb($date, $defaultDate = null)
+    {  
+        if ($defaultDate == null) {
+            $defaultDate = "1970-01-01 00:00:00";
+        }
         if (null === $date) {
             $date = $defaultDate;
         }
@@ -71,10 +74,11 @@ class Zmz_Date
         return $tmpDate;
     }
 
-    public static function printDateFromDb($date, $format = null)
+    public static function printDateFromDb($date, $format = null, Zend_Date $defaultDate = null)
     {
         try {
-            $date = self::getDateFromDb($date);
+            $defaultDateString = self::getSqlDateTime($defaultDate, false, true);
+            $date = self::getDateFromDb($date, $defaultDateString);
         } catch (Zmz_Date_Exception $e) {
             return '';
         }
@@ -121,6 +125,9 @@ class Zmz_Date
     protected static function _getDateObject($date = null, $part = null)
     {
         if (!$date instanceof Zend_Date) {
+            if ($part === null) {
+                $part = self::getLocaleDateTimeFormat();
+            }
             $date = new Zend_Date($date, $part, null);
         }
 
