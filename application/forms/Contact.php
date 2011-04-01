@@ -13,15 +13,14 @@ class Application_Form_Contact extends MyApp_Form
         $this->setMethod("post");
         $this->setAttrib("class", "form");
 
-        $name = new Zend_Form_Element_Text('name');
+        $name = new MyApp_Form_Element_Text('name');
         $name->setLabel(Zmz_Translate::_('Name'))
                 ->setRequired(true)
-                ->addValidator(new Zend_Validate_Digits())
                 ->addDecorator(new Zmz_Form_Decorator_JqueryValidator(array(
                             'required' => 'true',
                         )));
 
-        $email = new Zend_Form_Element_Text('email');
+        $email = new MyApp_Form_Element_Text('email');
         $email->setLabel(Zmz_Translate::_('Email'))
                 ->setRequired(true)
                 ->addValidator(new Zmz_Validate_EmailAddressSimple())
