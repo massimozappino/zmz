@@ -20,10 +20,11 @@
                 ->appendStylesheet($this->baseUrl() . '/jquery/css/ui-lightness/jquery-ui-1.8.10.custom.css', 'all');
 
         $this->headScript()
+                ->appendFile($this->baseUrl() . '/js/zmz')
                 ->appendFile($this->baseUrl() . '/js/custom.js');
 
         $this->jQuery()
-                ->setLocalPath($this->baseUrl() . '/jquery/js/jquery-1.5.1.min.js')
+                ->setLocalPath($this->baseUrl() . '/jquery/js/jquery-1.4.4.min.js')
                 ->setUiLocalPath($this->baseUrl() . '/jquery/js/jquery-ui-1.8.10.custom.min.js')
                 ->uiEnable();
         ?>
