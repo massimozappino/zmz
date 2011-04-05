@@ -6,6 +6,9 @@ class AccountController extends Zmz_Controller_Action
     public function init()
     {
         parent::init();
+        $layout = $this->getLayout();
+        $view = $layout->getView();
+        $this->getLayout()->sidemenu = $view->partial('account/_menu.phtml');
     }
 
     public function indexAction()
@@ -672,14 +675,6 @@ class AccountController extends Zmz_Controller_Action
 
                     $values = $form->getValidValues($postData);
 
-                    // TODO
-                    $locale = $this->getRequest()->getPost('locale');
-                    $timezone = $this->getRequest()->getPost('timezone');
-                    Zmz_Culture::setCulture($locale, $timezone, true);
-                    $usersModel = new Model_Users();
-                    $usersModel->saveCulture(Zmz_Culture::getLocale(true), Zmz_Culture::getTimezone(true));
-
-
                     $userRow->name = $values['name'];
                     $userRow->surname = $values['surname'];
                     $userRow->save();
@@ -693,9 +688,11 @@ class AccountController extends Zmz_Controller_Action
                     throw $e;
                 }
             }
+        } else {
+            $form->populate($userRow->toArray());
         }
 
-        $form->populate($userRow->toArray());
+
         $this->view->form = $form;
     }
 
