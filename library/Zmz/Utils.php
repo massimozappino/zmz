@@ -15,6 +15,7 @@
  */
 class Zmz_Utils
 {
+
     /**
      * Get a tokenized string
      *
@@ -55,7 +56,6 @@ class Zmz_Utils
             throw new Zmz_Utils_Exception('Header already sent');
         }
     }
-
 
     /**
      * Add zero chars at the left of given integer
@@ -124,7 +124,6 @@ class Zmz_Utils
         return strtr($string, $table);
     }
 
-
     /**
      *
      * @param string $id
@@ -140,6 +139,32 @@ class Zmz_Utils
         $id = trim($id, '-');
 
         return $id;
+    }
+
+    public static function getQueryStringFromUrl($url)
+    {
+        $queryString = null;
+        if ($url) {
+            @list($base, $queryString) = explode('?', $url);
+        }
+        
+        return $queryString;
+    }
+
+    public static function getQueryStringArrayFromString($queryString)
+    {
+        $query = array();
+
+        if ($queryString != '') {
+            $array = explode("&", $queryString);
+            foreach ($array as $k => $v) {
+                $tmp = explode("=", $v, 2);
+                $query[$tmp[0]] = $tmp[1];
+            }
+        }
+        
+        
+        return $query;
     }
 
 }
