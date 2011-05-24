@@ -143,11 +143,12 @@ class Zmz_Utils
 
     public static function getQueryStringFromUrl($url)
     {
+        $queryString = null;
         if ($url) {
-            list($base, $queryString) = explode('?', $url);
-            return $queryString;
+            @list($base, $queryString) = explode('?', $url);
         }
-        return null;
+        
+        return $queryString;
     }
 
     public static function getQueryStringArrayFromString($queryString)
