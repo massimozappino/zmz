@@ -1,0 +1,112 @@
+<?php $projectConfig = Zend_Registry::get('projectConfig'); ?>
+
+<?= $this->doctype() ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <?php
+        $this->headTitle()->append($projectConfig->title);
+        $this->headTitle()->setSeparator(' - ');
+        $this->title ? $this->headTitle()->prepend($this->title) : null;
+        ?>
+
+        <?= $this->headTitle(); ?>       
+        <?php
+        $this->headLink()
+                ->appendStylesheet($this->baseUrl() . '/css/style.css', 'all')
+                ->appendStylesheet($this->baseUrl() . '/css/form.css', 'all')
+                ->appendStylesheet($this->baseUrl() . '/css/utils.css', 'all')
+                ->appendStylesheet($this->baseUrl() . '/css/messenger.css', 'all')
+                ->appendStylesheet($this->baseUrl() . '/jquery/css/ui-lightness/jquery-ui-1.8.10.custom.css', 'all');
+
+        $this->headScript()
+                ->appendFile($this->baseUrl() . '/js/zmz')
+                ->appendFile($this->baseUrl() . '/js/custom.js');
+
+        $this->jQuery()
+                ->setLocalPath($this->baseUrl() . '/jquery/js/jquery-1.4.4.min.js')
+                ->setUiLocalPath($this->baseUrl() . '/jquery/js/jquery-ui-1.8.10.custom.min.js')
+                ->uiEnable();
+        ?>
+
+        <?php $this->captureJavascript()->start() ?>
+        <script type="text/javascript">
+            $(".locale-link").click(function () {
+                $("#dialog-locale").dialog({
+                    height: 220,
+                    width: 560,
+                    modal: true
+                });
+                $("#dialog-locale-content").load('<?= $this->url(array('controller' => 'locale'), 'default', true) ?>', function () {
+                    $(this).show();
+                    $("#dialog-locale-loading").hide();
+                });
+                return false;
+            });
+        </script>
+        <?php $this->addJquery($this->captureJavascript()->end()) ?>
+
+        <?php $this->captureJavascript()->start() ?>
+        <script type="text/javascript">
+
+        </script>
+        <?php $this->addJavascript($this->captureJavascript()->end()) ?>
+        <?= $this->jQuery() // must be called before headScript() ?>
+        <?= $this->headScript() ?>
+        <?= $this->headLink() ?>
+
+    </head>
+    <body>
+        <div id="dialog-locale" title="<?= $this->translate()->_('Change your settings') ?>" class="hidden">
+            <div id="dialog-locale-loading"><img src="/images/spinner.gif" alt="" /> <span><?= $this->translate()->_('Loading') ?>...</span></div>
+            <div id="dialog-locale-content" class="hidden"></div>
+        </div>
+        <div id="main">
+            <div id="header">
+                <div id="login">
+                    <?php if (Model_Acl::isLogged()): ?>
+                        <div><a href="<?= $this->url(array("controller" => "account", "action" => "index")) ?>"><?= Model_Acl::getUsername() ?></a> (<a href="<?= $this->url(array("controller" => "account", "action" => "logout")) ?>"><?= $this->translate()->_('Logout') ?></a>)</div>
+                    <?php else: ?>
+                            <div><a href="<?= $this->url(array("controller" => "account", "action" => "login")) ?>"><?= $this->translate()->_('Login') ?></a> | <a href="<?= $this->url(array("controller" => "account", "action" => "signin")) ?>"><?= $this->translate()->_('Sign in') ?></a></div>
+                    <?php endif; ?>
+                        </div>
+                        <div id="logo">
+                            <h1><a href="<?= $this->url(array(), 'default', true) ?>"><?= $projectConfig->title ?></a></h1>
+                        </div>
+
+                        <div id="menu">
+                            <ul>
+                                <li><a href="<?= $this->url(array(), 'default', true) ?>"><?= $this->translate()->_('Home') ?></a></li>
+                                <li><a href="<?= $this->url(array('controller' => 'contact'), 'default', true) ?>"><?= $this->translate()->_('Contact us') ?></a></li>
+                            </ul>
+                        </div>
+                    </div>        
+                    <div id="middle">
+                        <div id="sidebar">
+                    <?= $this->layout()->sidemenu ?>
+
+                        </div>
+                        <div id="content">
+                            <div id="messenger"><?= $this->messenger() ?></div>
+                    <?= $this->layout()->content ?>
+                        </div>
+                    </div>
+                    <div id="footer">
+                        <div class="clear-float">
+                            <div class="float-left">
+                                Copyright &copy; <a href="http://www.zappino.it" target="_blank">zappino.it</a>
+                            </div>
+                            <div class="float-right">
+                                <span><?= $this->translate()->_('Language') ?>:
+                                    <a class="locale-link" href="<?= $this->url(array(), 'default', true) ?>"><?= ucfirst(Zend_Locale::getTranslation(MyApp_Language::getLanguage(), 'language')); ?></a>
+                                </span>
+                                <span><?= $this->translate()->_('Timezone') ?>:
+                                    <a class="locale-link" href="<?= $this->url(array(), 'default', true) ?>"><?= Zmz_Culture::getTimezone(); ?></a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>

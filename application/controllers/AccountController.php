@@ -590,7 +590,7 @@ class AccountController extends Zmz_Controller_Action
             $this->_doLogin($user->username, $user->password, true);
 
             $db->commit();
-            
+
             Zmz_Messenger::getInstance()->addSuccess(Zmz_Translate::_("Your account has been activated"), true);
             $this->_redirect($this->_helper->url('index', 'account'));
         } catch (Exception $e) {
@@ -635,7 +635,7 @@ class AccountController extends Zmz_Controller_Action
                 $view = $this->view;
                 $view->username = $userRow->username;
                 $view->email = $userRow->email;
-                $view->id = $userRow->id;
+                $view->id = $userRow->user_id;
                 $view->code = $userRow->code;
                 $bodyText = $view->render('account/email/activation.phtml');
 
