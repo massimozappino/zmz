@@ -36,6 +36,8 @@ class Zmz_Object implements ArrayAccess, Countable, IteratorAggregate
                 ->setThrowException($throwException);
         if (is_array($values)) {
             $this->setFromArray($values);
+        } elseif ($values instanceof Zmz_Object) {
+            $this->setFromArray($values->toArray());
         }
     }
 
@@ -86,7 +88,7 @@ class Zmz_Object implements ArrayAccess, Countable, IteratorAggregate
     public function set($key, $value)
     {
         $this->__set($key, $value);
-        
+
         return $this;
     }
 
@@ -169,7 +171,5 @@ class Zmz_Object implements ArrayAccess, Countable, IteratorAggregate
     {
         return $this->getData();
     }
-
-
 
 }
