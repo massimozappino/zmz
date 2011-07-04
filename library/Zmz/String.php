@@ -15,6 +15,7 @@
  */
 class Zmz_String
 {
+
     /**
      *
      * @param string $fullText
@@ -129,6 +130,21 @@ class Zmz_String
         $text = strtolower(trim($text, '-'));
 
         return $text;
+    }
+
+    /**
+     * Determines whether the beginning of a string matches a specified string.
+     * 
+     * @param string $baseString
+     * @param string $startString
+     * @return boolean 
+     */
+    public static function startsWith($baseString, $startString)
+    {
+        if (substr($baseString, 0, strlen($startString)) == $startString) {
+            return true;
+        }
+        return false;
     }
 
 }
