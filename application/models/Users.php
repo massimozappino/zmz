@@ -12,9 +12,12 @@ class Model_Users extends Zend_Db_Table_Abstract
     public function add($values)
     {
         $nowSql = Zmz_Date::getSqlDateTime();
+        $salt =  self::generateSalt();;
+
         $row = $this->createRow();
         $row->username = $values['username'];
-        $row->password = $this->hashPassword($values['password']);
+        $row->password = $this->hashPassword($values['password'], $salt);
+        $row->salt = $salt;
         $row->email = $values['email'];
         $row->locale = Zmz_Culture::getLocale();
         $row->timezone = Zmz_Culture::getTimezone();
@@ -33,6 +36,7 @@ class Model_Users extends Zend_Db_Table_Abstract
         }
     }
 
+    
     /**
      *
      * @param string $usernameOrEmail
@@ -44,22 +48,36 @@ class Model_Users extends Zend_Db_Table_Abstract
     {
         $isHashPassword = (bool) $isHashPassword;
         if (!$isHashPassword) {
-            $password = self::hashPassword($password);
+            $row = $this->findByUsernameOrEmail($usernameOrEmail);
+            if (!$row) {
+                return null;
+            }
+            $salt = $row->salt;
+            $password = self::hashPassword($password, $salt);
         }
 
         $select = $this->select()->setIntegrityCheck(false)
-                        ->from(array('u' => 'users'))
-                        ->join(array('g' => 'groups'), 'g.group_id = u.group_id', array(
-                            'group' => 'g.group'
-                        ))
-                        ->where('u.email = ? OR u.username = ?', $usernameOrEmail)
-                        ->where('u.password = ?', $password);
+                ->from(array('u' => 'users'))
+                ->join(array('g' => 'groups'), 'g.group_id = u.group_id', array(
+                    'group' => 'g.group'
+                ))
+                ->where('u.email = ? OR u.username = ?', $usernameOrEmail)
+                ->where('u.password = ?', $password);
 
         $row = $this->fetchRow($select);
 
         return $row;
     }
 
+    public function findByUsernameOrEmail($usernameOrEmail)
+    {
+        $select = $this->select()
+                ->from(array('u' => 'users'))
+                ->where('u.email = ? OR u.username = ?', $usernameOrEmail);
+        $row = $this->fetchRow($select);
+        return $row;
+    }
+    
     public function findById($id)
     {
         $select = $this->select()
@@ -113,15 +131,22 @@ class Model_Users extends Zend_Db_Table_Abstract
         return (bool) $row;
     }
 
-    public static function hashPassword($password)
+    public static function hashPassword($password, $salt)
     {
-        // $password = hash('sha256', $password);
+        $password = hash('sha256', $password . $salt);
         return $password;
     }
 
     public static function generateCode()
     {
         $code = sha1(uniqid(null, true));
+
+        return $code;
+    }
+
+    public static function generateSalt()
+    {
+        $code = md5(uniqid(null, true));
 
         return $code;
     }

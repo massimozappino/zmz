@@ -183,7 +183,7 @@ class AccountController extends Zmz_Controller_Action
                 $values = $form->getValues();
 
                 // check old password valid
-                if ($userRow->password != Model_Users::hashPassword($values['old_password'])) {
+                if ($userRow->password != Model_Users::hashPassword($values['old_password'], $userRow->salt)) {
                     $elementOldPassword = $form->getElement('old_password');
                     $elementOldPassword->addError(Zmz_Translate::_('Old password is not valid'));
                     $elementOldPassword->markAsError();
@@ -203,14 +203,12 @@ class AccountController extends Zmz_Controller_Action
                     try {
                         $db->beginTransaction();
 
-                        $userRow->password = Model_Users::hashPassword($values['password']);
-                        $userRow->save();
+                        $userRow->changePassword($values['password']);
 
                         // send notification email
                         $view = $this->view;
                         $view->username = $userRow->username;
                         $bodyText = $view->render('account/email/changepassword.phtml');
-
                         $mail = Zmz_Mail::getInstance();
                         $mail->setBodyText($bodyText);
                         $mail->addTo($userRow->email);
@@ -219,6 +217,7 @@ class AccountController extends Zmz_Controller_Action
 
                         $db->commit();
                         Zmz_Messenger::getInstance()->addSuccess(Zmz_Translate::_('Your password has been changed'), true);
+
                         $this->_redirect('account');
                     } catch (Exception $e) {
                         $db->rollBack();

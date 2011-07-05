@@ -80,6 +80,7 @@ CREATE TABLE  `zmz`.`users` (
   `user_id` int(10) NOT NULL AUTO_INCREMENT,
   `username` varchar(20) DEFAULT NULL,
   `password` char(64) NOT NULL,
+  `salt` char(32) NOT NULL,
   `email` varchar(200) NOT NULL,
   `name` varchar(30) DEFAULT NULL,
   `surname` varchar(30) DEFAULT NULL,
@@ -105,7 +106,7 @@ CREATE TABLE  `zmz`.`users` (
 
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 LOCK TABLES `users` WRITE;
-INSERT INTO `zmz`.`users` VALUES  (8,'massimo.zappino','123456','massimo.zappino@gmail.com',NULL,NULL,'en','Europe/Rome',1,'2011-03-19 10:05:56','2011-03-19 10:06:14',NULL,NULL,NULL,NULL,NULL,2);
+INSERT INTO `zmz`.`users` VALUES  (8,'massimo.zappino','2b9a26e2f8de08c9fe3717956b390c3ea938a3f84124eaf3629df7063aad18cd','4edf60bc1f7c61e10be053df32b3308a','massimo.zappino@gmail.com',NULL,NULL,'en','Europe/Rome',1,'2011-03-19 10:05:56','2011-03-19 10:06:14',NULL,NULL,NULL,NULL,NULL,2);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 

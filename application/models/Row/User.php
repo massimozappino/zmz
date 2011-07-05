@@ -133,5 +133,13 @@ class Model_Row_User extends Zend_Db_Table_Row
         }
     }
 
+    public function changePassword($password)
+    {
+        $salt = Model_Users::generateSalt();
+        $this->password = Model_Users::hashPassword($password, $salt);
+        $this->salt = $salt;
+        $this->save();
+    }
+
 }
 
