@@ -58,6 +58,8 @@ class Zmz_Json_Response
         }
 
         $response['status'] = $status;
+        $response['timestamp'] = time();
+
         $json = Zend_Json::encode($response);
         return $json;
     }
