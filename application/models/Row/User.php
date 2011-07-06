@@ -141,5 +141,16 @@ class Model_Row_User extends Zend_Db_Table_Row
         $this->save();
     }
 
+        /**
+     * Check if user status is confirmed
+     */
+    public function isConfirmed()
+    {
+        if ($this->status == Model_Users::STATUS_ACTIVE) {
+            return true;
+        }
+        return false;
+    }
+
 }
 
