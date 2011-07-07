@@ -17,29 +17,32 @@ class Zmz_Json_Response
 {
     const SUCCESS = 1;
     const ERROR = 0;
+    const DEFAULT_CODE = 0;
 
     protected $_data;
     protected $_error;
     protected $_status;
+    protected $_code;
 
-    public static function success($data)
+    public static function success($data, $code = null)
     {
-        return new self($data, null, self::SUCCESS);
+        return new self($data, null, self::SUCCESS, $code);
     }
 
-    public static function error($error = null)
+    public static function error($error = null, $code = null)
     {
         if (empty($error)) {
             $error = 'Generic error';
         }
-        return new self(null, $error, self::ERROR);
+        return new self(null, $error, self::ERROR, $code);
     }
 
-    protected function __construct($data = null, $error = null, $status = null)
+    protected function __construct($data = null, $error = null, $status = null, $code = null)
     {
         $this->setData($data);
         $this->setError($error);
         $this->setStatus($status);
+        $this->setCode($code);
     }
 
     public function __toString()
@@ -58,6 +61,7 @@ class Zmz_Json_Response
         }
 
         $response['status'] = $status;
+        $response['code'] = $this->getCode();
         $response['timestamp'] = time();
 
         $json = Zend_Json::encode($response);
@@ -79,12 +83,17 @@ class Zmz_Json_Response
         return $this->_status;
     }
 
-    public function setData($data = null)
+    public function getCode()
+    {
+        return $this->_code;
+    }
+
+    public function setData($data)
     {
         $this->_data = $data;
     }
 
-    public function setError($error = null)
+    public function setError($error)
     {
         if ($error instanceof Exception) {
             $errorString = $error->getMessage();
@@ -95,13 +104,21 @@ class Zmz_Json_Response
         $this->_error = $errorString;
     }
 
-    public function setStatus($status = null)
+    public function setStatus($status)
     {
         if (null === $status) {
             $status = self::SUCCESS;
         }
 
         $this->_status = $status;
+    }
+
+    public function setCode($code)
+    {
+        if (null === $code) {
+            $code = self::DEFAULT_CODE;
+        }
+        $this->_code = $code;
     }
 
 }
