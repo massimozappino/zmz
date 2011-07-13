@@ -23,7 +23,7 @@ class Zmz_Form_Decorator_Hidden extends Zend_Form_Decorator_Abstract
 
     public function render($content)
     {
-        $content = '<div style="visibility: none;">' . $content . '</div>';
+        $content = '<div style="display: none;">' . $content . '</div>';
 
         return $content;
     }
