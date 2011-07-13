@@ -54,7 +54,7 @@ class Zmz_Date
      * @return Zend_Date
      */
     public static function getDateFromDb($date, $defaultDate = null)
-    {  
+    {
         if ($defaultDate == null) {
             $defaultDate = "1970-01-01 00:00:00";
         }
@@ -172,9 +172,9 @@ class Zmz_Date
             $locale = Zend_Registry::get('Zend_Locale');
         }
         $format = trim(
-                        self::getLocaleDateFormat($partDate, $locale)
-                        . ' '
-                        . self::getLocaleTimeFormat($partTime, $locale)
+                self::getLocaleDateFormat($partDate, $locale)
+                . ' '
+                . self::getLocaleTimeFormat($partTime, $locale)
         );
 
         return $format;
@@ -230,6 +230,15 @@ class Zmz_Date
         $diffDates = $now->sub($givenDate);
         $value = (int) $diffDates->get(Zend_Date::SECOND_SHORT);
         return str_replace('{0}', $value, ($value != 1) ? $display[5]['other'] : $display[5]['one']) . ' ' . $ago;
+    }
+
+    public static function convertDateFormatToJquery($format = null)
+    {
+        if (!$format) {
+            $format = self::getLocaleDateFormat();
+        }
+        $newFormat = ZendX_JQuery_View_Helper_DatePicker::resolveZendLocaleToDatePickerFormat($format);
+        return $newFormat;
     }
 
 }
