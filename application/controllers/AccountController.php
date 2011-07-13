@@ -348,9 +348,9 @@ class AccountController extends Zmz_Controller_Action
             $user->save();
 
             $db->commit();
-            Zmz_Messenger::getInstance()->addESuccess(Zmz_Translate::_("Your email has been successfully changed"), true);
+            Zmz_Messenger::getInstance()->addSuccess(Zmz_Translate::_("Your email has been successfully changed"), true);
 
-            $this->_redirect($this->_helper->url('index', 'account'));
+            $this->_redirect($this->_helper->url('changeemail', 'account'));
         } catch (Exception $e) {
             $db->rollBack();
             throw new Exception($e->getMessage());

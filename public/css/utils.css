@@ -135,6 +135,10 @@
     overflow: auto;
 }
 
+.no-scroll {
+    overflow: hidden;
+}
+
 .width100 {
     width: 100%;
 }

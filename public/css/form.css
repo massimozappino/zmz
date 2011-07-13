@@ -6,6 +6,10 @@
     overflow:auto;
 }
 
+.zend_form p {
+    margin: 0;
+}
+
 .zend_form li {
     list-style-type: none;
 }
