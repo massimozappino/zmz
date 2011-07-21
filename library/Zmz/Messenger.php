@@ -25,7 +25,11 @@ class Zmz_Messenger
     protected $_messages;
     protected $_read;
     protected $_tmpSession;
-
+    /**
+     * Get singleton instance
+     * 
+     * @return Zmz_Messenger 
+     */
     public static function getInstance()
     {
         if (!isset(self::$_instance)) {
