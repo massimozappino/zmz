@@ -153,7 +153,12 @@ class MyApp_Auth_Storage_Database implements Zend_Auth_Storage_Interface
 
         return $sessionId;
     }
-
+    
+    public function getSessionId()
+    {
+        return $this->_getCookieSessionId();
+    }
+    
     protected function _generateSessionId()
     {
         list($usec, $sec) = explode(' ', microtime());

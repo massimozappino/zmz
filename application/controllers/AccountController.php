@@ -204,7 +204,14 @@ class AccountController extends Zmz_Controller_Action
                         $db->beginTransaction();
 
                         $userRow->changePassword($values['password']);
-
+                        
+                        $sessionId = Model_Acl::getSessionId($userRow);
+                        try {
+                        $sessionsModel = new Model_Sessions();
+                        $sessionsModel->deleteAllUserSessionsButCurrent($userRow->user_id, $sessionId);
+                        } catch (Exception $e) {
+                            
+                        }
                         // send notification email
                         $view = $this->view;
                         $view->username = $userRow->username;

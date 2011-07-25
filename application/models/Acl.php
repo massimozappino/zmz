@@ -170,5 +170,14 @@ class Model_Acl extends Zend_Acl
 
         return $itsMe;
     }
-
+    
+    public static function getSessionId($userId)
+    {
+        if ($userId instanceof Zend_Db_Table_Row) {
+            $userId = $userId->user_id;
+        }
+        $authStorageDatabase = new MyApp_Auth_Storage_Database();
+        $sessionId = $authStorageDatabase->getSessionId();
+        return $sessionId;
+    }
 }

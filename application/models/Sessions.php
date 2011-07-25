@@ -42,6 +42,17 @@ class Model_Sessions extends Zend_Db_Table_Abstract
         return $this->delete($where);
     }
 
+    public function deleteAllUserSessionsButCurrent($userId, $sessionId)
+    {
+        if (!$sessionId) {
+            return false;
+        }
+        $where = $this->getAdapter()->quoteInto('user_id = ?', $userId);
+        $where .= $this->getAdapter()->quoteInto(' AND session_id != ?', $sessionId);
+
+        return $this->delete($where);
+    }
+    
     public function writeSession($data)
     {
         $result = $this->insert($data);
