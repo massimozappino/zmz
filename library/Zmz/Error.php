@@ -16,9 +16,9 @@
 class Zmz_Error
 {
 
-    public function __construct($msg = '')
+    public function __construct($msg = '', $code = 0)
     {
-        throw new Zmz_Error_Exception($msg);
+        throw new Zmz_Error_Exception($msg, $code);
     }
 
 }

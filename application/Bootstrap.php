@@ -114,7 +114,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $dbResource = new Zend_Application_Resource_Db($options);
         $db = $dbResource->getDbAdapter();
         Zend_Db_Table::setDefaultAdapter($db);
-
         Zend_Registry::set('db', $db);
     }
 

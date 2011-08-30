@@ -9,5 +9,4 @@ class Model_Groups extends Zend_Db_Table_Abstract
     protected $_primary = 'group_id';
     protected $_name = 'groups';
 
-
 }

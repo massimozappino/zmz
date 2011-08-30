@@ -15,5 +15,5 @@
  */
 class Zmz_Error_Exception extends Zend_Exception
 {
-    
+  
 }
