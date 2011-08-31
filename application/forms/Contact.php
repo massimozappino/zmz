@@ -1,6 +1,6 @@
 <?php
 
-class Application_Form_Contact extends MyApp_Form
+class Form_Contact extends MyApp_Form
 {
 
     public function init()

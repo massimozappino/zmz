@@ -5,7 +5,7 @@ class ContactController extends Zmz_Controller_Action
 
     public function indexAction()
     {
-        $form = new Application_Form_Contact();
+        $form = new Form_Contact();
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
 
