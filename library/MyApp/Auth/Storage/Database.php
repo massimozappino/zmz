@@ -153,12 +153,12 @@ class MyApp_Auth_Storage_Database implements Zend_Auth_Storage_Interface
 
         return $sessionId;
     }
-    
+
     public function getSessionId()
     {
         return $this->_getCookieSessionId();
     }
-    
+
     protected function _generateSessionId()
     {
         list($usec, $sec) = explode(' ', microtime());
@@ -194,7 +194,10 @@ class MyApp_Auth_Storage_Database implements Zend_Auth_Storage_Interface
             $expires = $date->getTimestamp();
         }
 
-        $domain = Zmz_Host::getSubdomain(2) . '.' . Zmz_Host::getSubdomain(1);
+        $domain = Zmz_Host::buildHostname(2);
+        if (!$domain) {
+            $domain = Zmz_Host::getHostname();
+        }
         $httpCookieObject = new Zend_Http_Cookie($this->_cookieNamespace, null, $domain, $expires);
         $cookie = new Zmz_Cookie($httpCookieObject);
 
