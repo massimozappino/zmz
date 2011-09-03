@@ -60,10 +60,15 @@ class Zmz_Host
 
         $levels = explode('.', self::$host);
         $count = count($levels);
+        $tmpHost = str_replace('.', '', self::$host);
         self::$domainLevels = array();
-        foreach ($levels as $l) {
-            self::$domainLevels[$count] = $l;
-            $count--;
+        if (is_numeric($tmpHost)) {
+            // hostname is IP address
+        } else {
+            foreach ($levels as $l) {
+                self::$domainLevels[$count] = $l;
+                $count--;
+            }
         }
         return true;
     }
@@ -103,9 +108,15 @@ class Zmz_Host
         return self::$scheme;
     }
 
-    public static function getServerUrl()
+    public static function getServerUrl($level = null)
     {
-        $serverUrl = self::buildUrl(self::getHostname(), self::getScheme(), self::getPort());
+        if ($level == null) {
+            $hostname = self::getHostname();
+        } else {
+            $hostname = self::buildHostname($level);
+        }
+
+        $serverUrl = self::buildUrl($hostname, self::getScheme(), self::getPort());
 
         return $serverUrl;
     }
@@ -117,7 +128,7 @@ class Zmz_Host
         }
 
         $url = $scheme . '://' . $hostname;
-        if ($port) {
+        if ($port && $port != '80') {
             $url .= ':' . $port;
         }
 
@@ -154,6 +165,27 @@ class Zmz_Host
         }
     }
 
+    public static function getSubdomains()
+    {
+        self::extract();
+
+        $domainLevels = self::$domainLevels;
+        return $domainLevels;
+    }
+
+    public static function buildHostname($level)
+    {
+        if (!count(self::getSubdomains())) {
+            return null;
+        }
+        $levels = array();
+        for ($i = $level; $i >= 1; $i--) {
+            $levels[$i] = self::getSubdomain($i);
+        }
+
+        return implode('.', $levels);
+    }
+
     /**
      * Get the current user agent
      * 
@@ -181,7 +213,7 @@ class Zmz_Host
         return $rawIp;
     }
 
-        /**
+    /**
      * Get current ip filtered. It will add a
      *
      * @return string
@@ -254,5 +286,6 @@ class Zmz_Host
             }
         }
     }
+
 }
 

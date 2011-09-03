@@ -100,21 +100,20 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
     public function _initDatabase()
     {
-//        $this->bootstrap('db');
-//        $db = $this->getPluginResource('db')->getDbAdapter();
-//        Zend_Db_Table::setDefaultAdapter($db);
-
-        $config = $this->getOptions();
-        $options = $config['resources']['db'];
-
-
-        $params = $config['resources']['db']['params'];
-
-        $options['params'] += $params;
-        $dbResource = new Zend_Application_Resource_Db($options);
-        $db = $dbResource->getDbAdapter();
+        $this->bootstrap('db');
+        $db = $this->getPluginResource('db')->getDbAdapter();
         Zend_Db_Table::setDefaultAdapter($db);
 
+//        $config = $this->getOptions();
+//        $options = $config['resources']['db'];
+//
+//
+//        $params = $config['resources']['db']['params'];
+//
+//        $options['params'] += $params;
+//        $dbResource = new Zend_Application_Resource_Db($options);
+//        $db = $dbResource->getDbAdapter();
+//        Zend_Db_Table::setDefaultAdapter($db);
         Zend_Registry::set('db', $db);
     }
 

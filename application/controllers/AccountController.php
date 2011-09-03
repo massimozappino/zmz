@@ -495,9 +495,7 @@ class AccountController extends Zmz_Controller_Action
                                 try {
                                     $db->beginTransaction();
 
-                                    $userRow->password = Model_Users::hashPassword($values['password']);
-                                    $userRow->setCode();
-                                    $userRow->save();
+                                    $userRow->changePassword($values['password']);
 
                                     // send notification email
                                     $view = $this->view;
