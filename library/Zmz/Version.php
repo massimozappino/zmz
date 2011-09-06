@@ -13,6 +13,7 @@
  * @copyright  Copyright (c) 2010-2011 Massimo Zappino (http://www.zappino.it)
  * @license    http://www.gnu.org/licenses/gpl-3.0.html     GNU GPLv3 License
  */
+
 final class Zmz_Version
 {
     const VERSION = '0.2.0';
