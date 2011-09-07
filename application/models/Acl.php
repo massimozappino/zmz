@@ -16,10 +16,10 @@ class Model_Acl extends Zend_Acl
         $this->addRole(new Zend_Acl_Role('admin'), 'user');
 
         // Resources
-        $this->add(new Zend_Acl_Resource('my_resource'));
+        $this->add(new Zend_Acl_Resource('admin'));
 
         // Allows
-        $this->allow('guest', 'resource', 'view');
+//        $this->allow('guest', 'resource', 'view');
         $this->allow('admin', 'admin', 'all');
     }
 
