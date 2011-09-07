@@ -13,102 +13,190 @@
  * @copyright  Copyright (c) 2010-2011 Massimo Zappino (http://www.zappino.it)
  * @license    http://www.gnu.org/licenses/gpl-3.0.html     GNU GPLv3 License
  */
-class Zmz_Object implements ArrayAccess, Countable, IteratorAggregate
+class Zmz_Object implements Countable, Iterator, ArrayAccess
 {
 
     /**
-     * If set to true Exception will be thrown when attribute not found
+     * If set to true Exception will be thrown when an attribute is not found
      *
      * @var boolean
      */
     protected $_throwException;
+
+    /**
+     * Whether in-memory modifications to configuration data are allowed
+     *
+     * @var boolean
+     */
+    protected $_allowModifications;
+
     /**
      * Data structure where attributes will be stored
      *
-     * @var stdClass
+     * @var array
      */
     protected $_data;
 
+    /**
+     * Iteration index
+     *
+     * @var integer
+     */
+    protected $_index;
 
-    public function __construct($values = null, $throwException = true)
+    /**
+     * Number of elements in configuration data
+     *
+     * @var integer
+     */
+    protected $_count;
+
+    /**
+     * Used when unsetting values during iteration to ensure we do not skip
+     * the next element
+     *
+     * @var boolean
+     */
+    protected $_skipNextIteration;
+
+    public function __construct($values = null, $throwException = true, $writable = true)
     {
         $this->resetAttributes()
-                ->setThrowException($throwException);
-        if (is_array($values)) {
-            $this->setFromArray($values);
-        } elseif ($values instanceof Zmz_Object) {
-            $this->setFromArray($values->toArray());
+                ->setThrowException($throwException)
+                ->_setAllowModification($writable);
+        if (!$values) {
+            return;
         }
-    }
-
-    public static function getInstance($values = null, $throwException = true)
-    {
-        return new self($values, $throwException);
-    }
-
-    public function __get($key)
-    {
-        if (!isset($this->_data->$key)) {
-            if ($this->_throwException) {
-                throw new Zmz_Exception('Key ' . $key . ' is not set');
+        foreach ($values as $key => $value) {
+            if (is_array($value)) {
+                $this->_data[$key] = new self($value, $this->_allowModifications);
             } else {
-                return null;
+                $this->_data[$key] = $value;
             }
         }
-
-        return $this->_data->$key;
+        $this->_count = count($this->_data);
     }
 
-    public function __set($key, $value)
+    public static function getInstance($values = null, $throwException = true, $writable = true)
     {
-        $this->_data->$key = $value;
+        return new self($values, $throwException, $writable);
     }
 
-    public function __isset($key)
+    /**
+     * Retrieve a value and return $default if there is no element set.
+     *
+     * @param string $name
+     * @param mixed $default
+     * @return mixed
+     */
+    public function get($name, $default = null)
     {
-        return isset($this->_data->$key);
-    }
-
-    public function getData()
-    {
-        $attributes = $this->_data;
-
-        if ($attributes == null) {
-            $attributes = array();
+        $result = $default;
+        if (array_key_exists($name, $this->_data)) {
+            $result = $this->_data[$name];
         }
-
-        return $attributes;
+        return $result;
     }
 
-    public function get($key)
+    /**
+     * Magic function so that $obj->value will work.
+     *
+     * @param string $name
+     * @return mixed
+     */
+    public function __get($name)
     {
-        return $this->__get($key);
+        return $this->get($name);
     }
 
-    public function set($key, $value)
+    /**
+     * Only allow setting of a property if $allowModifications
+     * was set to true on construction. Otherwise, throw an exception.
+     *
+     * @param  string $name
+     * @param  mixed  $value
+     * @throws Zend_Config_Exception
+     * @return void
+     */
+    public function __set($name, $value)
     {
-        $this->__set($key, $value);
+        if ($this->_allowModifications) {
+            if (is_array($value)) {
+                $this->_data[$name] = new self($value, true);
+            } else {
+                $this->_data[$name] = $value;
+            }
+            $this->_count = count($this->_data);
+        } else {
+            /** @see Zmz_Object_Exception */
+            require_once 'Zmz/Object/Exception.php';
+            throw new Zmz_Object_Exception('Zmz_Object is read only');
+        }
+    }
 
-        return $this;
+    public function __unset($name)
+    {
+
+        if ($this->_allowModifications) {
+            unset($this->_data[$name]);
+            $this->_count = count($this->_data);
+            $this->_skipNextIteration = true;
+        } else {
+            /** @see Zmz_Object_Exception */
+            require_once 'Zmz/Object/Exception.php';
+            throw new Zmz_Object_Exception('Zmz_Object is read only');
+        }
+    }
+
+    /**
+     * Deep clone of this instance to ensure that nested Zend_Configs
+     * are also cloned.
+     *
+     * @return void
+     */
+    public function __clone()
+    {
+        $array = array();
+        foreach ($this->_data as $key => $value) {
+            if ($value instanceof self) {
+                $array[$key] = clone $value;
+            } else {
+                $array[$key] = $value;
+            }
+        }
+        $this->_data = $array;
+    }
+
+    /**
+     * Return an associative array of the stored data.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $array = array();
+        $data = $this->_data;
+        foreach ($data as $key => $value) {
+            if ($value instanceof self) {
+                $array[$key] = $value->toArray();
+            } else {
+                $array[$key] = $value;
+            }
+        }
+        return $array;
     }
 
     public function resetAttributes()
     {
-        $this->_data = new stdClass();
+        $this->_index = 0;
+        $this->_data = array();
 
         return $this;
     }
 
-    public function setFromArray(array $array)
+    public function getThrowException()
     {
-        foreach ($array as $k => $v) {
-            if (is_array($v)) {
-                $v = new self($v, $this->getThrowException());
-            }
-            $this->_data->$k = $v;
-        }
-
-        return $this;
+        return $this->_throwException;
     }
 
     public function setThrowException($bool)
@@ -118,58 +206,113 @@ class Zmz_Object implements ArrayAccess, Countable, IteratorAggregate
         return $this;
     }
 
-    public function toArray()
+    public function setReadOnly()
     {
-        $attributes = $this->getData();
-        $array = array();
-        foreach ($attributes as $k => $v) {
-            if ($v instanceof self) {
-                $array[$k] = $v->toArray();
-            } else {
-                $array[$k] = $v;
+        $this->_setAllowModification(false);
+        return $this;
+    }
+
+    public function setWritable()
+    {
+        $this->_setAllowModification(true);
+        return $this;
+    }
+
+    protected function _setAllowModification($allowModification)
+    {
+        $this->_allowModifications = (bool) $allowModification;
+        foreach ($this->_data as $key => $value) {
+            if ($value instanceof self) {
+                $value->_setAllowModification($allowModification);
             }
         }
-
-        return $array;
+        return $this;
     }
 
     /**
-     *
-     * @return boolean
+     * @deprecated
      */
-    public function getThrowException()
+    public function getIterator()
     {
-        return $this->_throwException;
+        trigger_error(
+                'Zmz_Object::getIterator() is deprecated as of 2.0; Zmz_Object is now an iterator', E_USER_NOTICE
+        );
+        return $this->getData();
     }
 
-    public function offsetExists($offset)
+    public function getData()
     {
-        return isset($this->_data->$offset);
+        $data = $this->_data;
+
+        if ($data == null) {
+            $data = array();
+        }
+
+        return $data;
     }
 
-    public function offsetGet($offset)
+    public function readOnly()
     {
-        return $this->_data->$offset;
-    }
-
-    public function offsetSet($offset, $value)
-    {
-        $this->_data->$offset = $value;
-    }
-
-    public function offsetUnset($offset)
-    {
-        unset($this->_data->$offset);
+        return!$this->_allowModifications;
     }
 
     public function count()
     {
-        return count($this->toArray());
+        return $this->_count;
     }
 
-    public function getIterator()
+    public function current()
     {
-        return $this->getData();
+        $this->_skipNextIteration = false;
+        return current($this->_data);
+    }
+
+    public function key()
+    {
+        return key($this->_data);
+    }
+
+    public function next()
+    {
+        if ($this->_skipNextIteration) {
+            $this->_skipNextIteration = false;
+            return;
+        }
+        next($this->_data);
+        $this->_index++;
+    }
+
+    public function rewind()
+    {
+        $this->_skipNextIteration = false;
+        reset($this->_data);
+        $this->_index = 0;
+    }
+
+    public function valid()
+    {
+        return $this->_index < $this->_count;
+    }
+
+    public function offsetExists($offset)
+    {
+        return isset($this->_index);
+    }
+
+    public function offsetGet($offset)
+    {
+        return $this->__get($offset);
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        $this->__set($offset, $value);
+    }
+
+    public function offsetUnset($offset)
+    {
+        return $this->__unset($offset);
     }
 
 }
+
