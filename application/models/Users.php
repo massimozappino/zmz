@@ -12,7 +12,7 @@ class Model_Users extends Zend_Db_Table_Abstract
     public function add($values)
     {
         $nowSql = Zmz_Date::getSqlDateTime();
-        $salt =  self::generateSalt();;
+        $salt = self::generateSalt();
 
         $row = $this->createRow();
         $row->username = $values['username'];
@@ -36,7 +36,6 @@ class Model_Users extends Zend_Db_Table_Abstract
         }
     }
 
-    
     /**
      *
      * @param string $usernameOrEmail
@@ -77,11 +76,11 @@ class Model_Users extends Zend_Db_Table_Abstract
         $row = $this->fetchRow($select);
         return $row;
     }
-    
+
     public function findById($id)
     {
         $select = $this->select()
-                        ->where('user_id = ?', $id);
+                ->where('user_id = ?', $id);
         $row = $this->fetchRow($select);
 
         return $row;
@@ -90,7 +89,7 @@ class Model_Users extends Zend_Db_Table_Abstract
     public function findByUsername($username)
     {
         $select = $this->select()
-                        ->where('username = ?', $username);
+                ->where('username = ?', $username);
         $row = $this->fetchRow($select);
 
         return $row;
@@ -115,7 +114,7 @@ class Model_Users extends Zend_Db_Table_Abstract
     public function findByEmail($email)
     {
         $select = $this->select()
-                        ->where('email = ?', $email);
+                ->where('email = ?', $email);
         $row = $this->fetchRow($select);
 
         return $row;
@@ -124,8 +123,8 @@ class Model_Users extends Zend_Db_Table_Abstract
     public function checkEmailExists($email)
     {
         $select = $this->select()
-                        ->where('email = ?', $email)
-                        ->orWhere('new_email = ?', $email);
+                ->where('email = ?', $email)
+                ->orWhere('new_email = ?', $email);
         $row = $this->fetchRow($select);
 
         return (bool) $row;
@@ -149,6 +148,21 @@ class Model_Users extends Zend_Db_Table_Abstract
         $code = md5(uniqid(null, true));
 
         return $code;
+    }
+
+    public function getGroupName($id)
+    {
+        $select = $this->select()->setIntegrityCheck(false)
+                ->from(array('u' => 'users'), array())
+                ->join(array('g' => 'groups'), 'g.group_id = u.group_id', array(
+                    'group' => 'g.group'
+                ))
+                ->where('u.user_id = ?', $id);
+        $row = $this->fetchRow($select);
+
+        $group = $row ? $row->group : null;
+
+        return $group;
     }
 
 }
