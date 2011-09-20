@@ -213,5 +213,25 @@ class Zmz_Controller_Action extends Zend_Controller_Action
         return $environment;
     }
 
+    public function isProduction()
+    {
+        return $this->getEnvironment() == 'production';
+    }
+
+    public function isDevelopment()
+    {
+        return $this->getEnvironment() == 'development';
+    }
+
+    public function isStaging()
+    {
+        return $this->getEnvironment() == 'staging';
+    }
+
+    public function isTesting()
+    {
+        return $this->getEnvironment() == 'testing';
+    }
+
 }
 

@@ -74,13 +74,15 @@ class Zmz_Date
         return $tmpDate;
     }
 
-    public static function printDateFromDb($date, $format = null, Zend_Date $defaultDate = null)
+    public static function printDateFromDb($date, $format = null, $defaultDateString = null)
     {
+        if ($date == null) {
+            return $defaultDateString;
+        }
         try {
-            $defaultDateString = self::getSqlDateTime($defaultDate, false, true);
-            $date = self::getDateFromDb($date, $defaultDateString);
+            $date = self::getDateFromDb($date);
         } catch (Zmz_Date_Exception $e) {
-            return '';
+            return $defaultDateString;
         }
         if (!$format) {
             $format = self::getLocaleDateTimeFormat();

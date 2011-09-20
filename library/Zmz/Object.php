@@ -94,6 +94,8 @@ class Zmz_Object implements Countable, Iterator, ArrayAccess
         $result = $default;
         if (array_key_exists($name, $this->_data)) {
             $result = $this->_data[$name];
+        } elseif ($this->getThrowException()) {
+            throw new Zmz_Object_Exception("Key \"$name\" not found");
         }
         return $result;
     }
