@@ -23,7 +23,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     protected function _initCustomItems()
     {
         require_once APPLICATION_PATH . '/../library/functions.php';
+        $messenger = Zmz_Messenger::getInstance();
+        $messenger->setPrefix('');
     }
+
 
     protected function _initView()
     {
@@ -43,14 +46,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         // add global script path
         $view->addScriptPath(APPLICATION_PATH . '/views/scripts');
 
-        // add global helpers
-        $view->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Zend_View_Helper_');
-
         //add Jquery helpers
         $view->addHelperPath("ZendX/JQuery/View/Helper", "ZendX_JQuery_View_Helper");
 
         // add Zmz helpers
         $view->addHelperPath("Zmz/View/Helper", "Zmz_View_Helper");
+
+        // add global helpers
+        $view->addHelperPath(APPLICATION_PATH . '/views/helpers', 'MyApp_Helper_');
     }
 
     protected function _initActionHelpers()

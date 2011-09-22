@@ -5,6 +5,7 @@ class ContactController extends Zmz_Controller_Action
 
     public function indexAction()
     {
+        $this->view->title = Zmz_Translate::_('Contact');
         $form = new Form_Contact();
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
