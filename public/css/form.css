@@ -95,13 +95,12 @@ textarea.default-field {
     width: 295px;
 }
 
-
-.required {
-    font-weight: bold;
+dl.zend_form .required {
+    font-weight: bold!important;
 }
 
-.errors {
-    color: red;
+dl.zend_form .errors > li {
+    color: red!important;
 }
 
 input, textarea, select, button {

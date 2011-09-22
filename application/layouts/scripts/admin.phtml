@@ -79,11 +79,6 @@
                             <li class="menu">
                                 <a href="<?= $this->url(array("controller" => "account", "action" => "index"), 'default', true) ?>"><?= Model_Acl::getUsername() ?></a>
                             </li>
-                            <?php if (Model_Acl::isUserAllowed('admin', 'all')): ?>
-                                <li class="menu">
-                                    <a href="<?= $this->url(array(), 'admin', true) ?>">Admin</a>
-                                </li>
-                            <?php endif; ?>
                             <li class="menu">
                                 <a href="<?= $this->url(array("controller" => "account", "action" => "logout"), 'default', true) ?>"><?= $this->translate()->_('Logout') ?></a>
                             </li>
