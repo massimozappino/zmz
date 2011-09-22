@@ -47,6 +47,11 @@ dl.zend_form dt {
     padding-top: 4px;
 }
 
+dl.zend_form dt label {
+    width: auto!important;
+    float: none!important;
+}
+
 dl.zend_form dt label.required:before {
     content:'* '; color: red;
 }
