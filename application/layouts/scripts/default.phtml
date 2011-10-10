@@ -7,25 +7,26 @@
         <?php
         $this->headTitle()->append($projectConfig->title);
         $this->headTitle()->setSeparator(' - ');
-        $this->title ? $this->headTitle()->prepend($this->title) : null;
+        $this->title ? $this->headTitle()->append($this->title) : null;
         ?>
 
         <?= $this->headTitle(); ?>       
         <?php
         $this->headLink()
-                ->appendStylesheet($this->baseUrl() . '/css/style.css', 'all')
+//                ->appendStylesheet($this->baseUrl() . '/css/style.css', 'all')
                 ->appendStylesheet($this->baseUrl() . '/css/form.css', 'all')
                 ->appendStylesheet($this->baseUrl() . '/css/utils.css', 'all')
                 ->appendStylesheet($this->baseUrl() . '/css/messenger.css', 'all')
-                ->appendStylesheet($this->baseUrl() . '/jquery/css/ui-lightness/jquery-ui-1.8.10.custom.css', 'all');
+                ->appendStylesheet($this->baseUrl() . '/css/bootstrap.min.css', 'all')
+                ->appendStylesheet($this->baseUrl() . '/jquery/css/black-tie/jquery-ui-1.8.16.custom.css', 'all');
 
         $this->headScript()
                 ->appendFile($this->baseUrl() . '/js/zmz')
                 ->appendFile($this->baseUrl() . '/js/custom.js');
 
         $this->jQuery()
-                ->setLocalPath($this->baseUrl() . '/jquery/js/jquery-1.4.4.min.js')
-                ->setUiLocalPath($this->baseUrl() . '/jquery/js/jquery-ui-1.8.10.custom.min.js')
+                ->setLocalPath($this->baseUrl() . '/jquery/js/jquery-1.6.2.min.js')
+                ->setUiLocalPath($this->baseUrl() . '/jquery/js/jquery-ui-1.8.16.custom.min.js')
                 ->uiEnable();
         ?>
 
@@ -48,7 +49,9 @@
 
         <?php $this->captureJavascript()->start() ?>
         <script type="text/javascript">
-
+            function closeMessenger() {
+                $("#messenger").fadeOut(300);
+            }
         </script>
         <?php $this->addJavascript($this->captureJavascript()->end()) ?>
         <?= $this->jQuery() // must be called before headScript() ?>
@@ -61,52 +64,68 @@
             <div id="dialog-locale-loading"><img src="/images/spinner.gif" alt="" /> <span><?= $this->translate()->_('Loading') ?>...</span></div>
             <div id="dialog-locale-content" class="hidden"></div>
         </div>
-        <div id="main">
-            <div id="header">
-                <div id="login">
-                    <?php if (Model_Acl::isLogged()): ?>
-                        <div><a href="<?= $this->url(array("controller" => "account", "action" => "index")) ?>"><?= Model_Acl::getUsername() ?></a> (<a href="<?= $this->url(array("controller" => "account", "action" => "logout")) ?>"><?= $this->translate()->_('Logout') ?></a>)</div>
-                    <?php else: ?>
-                            <div><a href="<?= $this->url(array("controller" => "account", "action" => "login")) ?>"><?= $this->translate()->_('Login') ?></a> | <a href="<?= $this->url(array("controller" => "account", "action" => "signin")) ?>"><?= $this->translate()->_('Sign in') ?></a></div>
-                    <?php endif; ?>
-                        </div>
-                        <div id="logo">
-                            <h1><a href="<?= $this->url(array(), 'default', true) ?>"><?= $projectConfig->title ?></a></h1>
-                        </div>
 
-                        <div id="menu">
-                            <ul>
-                                <li><a href="<?= $this->url(array(), 'default', true) ?>"><?= $this->translate()->_('Home') ?></a></li>
-                                <li><a href="<?= $this->url(array('controller' => 'contact'), 'default', true) ?>"><?= $this->translate()->_('Contact us') ?></a></li>
-                            </ul>
-                        </div>
-                    </div>        
-                    <div id="middle">
-                        <div id="sidebar">
-                    <?= $this->layout()->sidemenu ?>
+        <div class="topbar">
+            <div class="fill">
+                <div class="container">
+                    <h3><a href="<?= $this->url(array(), 'default', true) ?>"><?= $projectConfig->title ?></a></h3>
+                    <ul>
+                        <li><a href="<?= $this->url(array(), 'default', true) ?>"><?= $this->translate()->_('Home') ?></a></li>
+                        <li><a href="<?= $this->url(array('controller' => 'contact'), 'default', true) ?>"><?= $this->translate()->_('Contact') ?></a></li>
+                    </ul>
+                    <ul class="nav secondary-nav">
 
-                        </div>
-                        <div id="content">
-                            <div id="messenger"><?= $this->messenger() ?></div>
-                    <?= $this->layout()->content ?>
-                        </div>
+                        <?php if (Model_Acl::isLogged()): ?>
+                            <li class="menu">
+                                <a href="<?= $this->url(array("controller" => "account", "action" => "index"), 'default', true) ?>"><?= Model_Acl::getUsername() ?></a>
+                            </li>
+                            <?php if (Model_Acl::isUserAllowed('admin', 'all')): ?>
+                                <li class="menu">
+                                    <a href="<?= $this->url(array(), 'admin', true) ?>">Backend</a>
+                                </li>
+                            <?php endif; ?>
+                            <li class="menu">
+                                <a href="<?= $this->url(array("controller" => "account", "action" => "logout"), 'default', true) ?>"><?= $this->translate()->_('Logout') ?></a>
+                            </li>
+                        <?php else: ?>
+                            <li class="menu">
+                                <a href="<?= $this->url(array("controller" => "account", "action" => "login"), 'default', true) ?>"><?= $this->translate()->_('Login') ?></a>
+                            </li>
+                            <li class="menu">
+                                <a href="<?= $this->url(array("controller" => "account", "action" => "signin"), 'default', true) ?>"><?= $this->translate()->_('Sign in') ?></a>
+                            </li>
+
+                        <?php endif; ?>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="container"> 
+
+            <div style="height: 60px;"></div>
+            <div id="messenger"><?= $this->messenger() ?></div>
+
+            <?= $this->layout()->content ?>
+            <footer>
+                <div class="clear-float">
+                    <div class="float-left">
+                        <p>&copy; <?= $projectConfig->title ?> <?= date("Y") ?></p>
                     </div>
-                    <div id="footer">
-                        <div class="clear-float">
-                            <div class="float-left">
-                                Copyright &copy; <a href="http://www.zappino.it" target="_blank">zappino.it</a>
-                            </div>
-                            <div class="float-right">
-                                <span><?= $this->translate()->_('Language') ?>:
-                                    <a class="locale-link" href="<?= $this->url(array(), 'default', true) ?>"><?= ucfirst(Zend_Locale::getTranslation(MyApp_Language::getLanguage(), 'language')); ?></a>
-                                </span>
-                                <span><?= $this->translate()->_('Timezone') ?>:
-                                    <a class="locale-link" href="<?= $this->url(array(), 'default', true) ?>"><?= Zmz_Culture::getTimezone(); ?></a>
+                    <div class="float-right">
+                        <span><?= $this->translate()->_('Language') ?>:
+                            <a class="locale-link" href="<?= $this->url(array(), 'default', true) ?>"><?= ucfirst(Zend_Locale::getTranslation(MyApp_Language::getLanguage(), 'language')); ?></a>
+                        </span>
+                        <span><?= $this->translate()->_('Timezone') ?>:
+                            <a class="locale-link" href="<?= $this->url(array(), 'default', true) ?>"><?= Zmz_Culture::getTimezone(); ?></a>
                         </span>
                     </div>
                 </div>
-            </div>
-
+            </footer>
         </div>
+
+
+
     </body>
 </html>

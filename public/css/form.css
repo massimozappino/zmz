@@ -47,6 +47,11 @@ dl.zend_form dt {
     padding-top: 4px;
 }
 
+dl.zend_form dt label {
+    width: auto!important;
+    float: none!important;
+}
+
 dl.zend_form dt label.required:before {
     content:'* '; color: red;
 }
@@ -90,13 +95,12 @@ textarea.default-field {
     width: 295px;
 }
 
-
-.required {
-    font-weight: bold;
+dl.zend_form .required {
+    font-weight: bold!important;
 }
 
-.errors {
-    color: red;
+dl.zend_form .errors > li {
+    color: red!important;
 }
 
 input, textarea, select, button {

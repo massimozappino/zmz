@@ -29,7 +29,7 @@ class Form_Contact extends MyApp_Form
                             'email' => 'true',
                         )));
 
-        $message = new Zend_Form_Element_Textarea('message');
+        $message = new MyApp_Form_Element_Textarea('message');
         $message->setLabel(Zmz_Translate::_('Message'))
                 ->setRequired(true)
                 ->addDecorator(new Zmz_Form_Decorator_JqueryValidator(array(

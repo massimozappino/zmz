@@ -10,7 +10,7 @@ class IndexController extends Zmz_Controller_Action
 
     public function indexAction()
     {
-      
+
     }
 
 }
