@@ -9,6 +9,26 @@ class Model_Users extends Zend_Db_Table_Abstract
     protected $_name = 'users';
     protected $_rowClass = 'Model_Row_User';
 
+    public static function getStatuses()
+    {
+        $statuses = array(
+            self::STATUS_INACTIVE => Zmz_Translate::_('Inactive'),
+            self::STATUS_ACTIVE => Zmz_Translate::_('Active')
+        );
+
+        return $statuses;
+    }
+
+    public static function getStatusName($status)
+    {
+        $statuses = self::getStatuses();
+        if (isset($statuses[$status])) {
+            return $statuses[$status];
+        } else {
+            return Zmz_Translate::_('Undefined');
+        }
+    }
+
     public function add($values)
     {
         $nowSql = Zmz_Date::getSqlDateTime();

@@ -184,4 +184,12 @@ class Zmz_Form extends ZendX_JQuery_Form
         $this->_jqueryFormPlugin = $url;
     }
 
+    public static function getSelectStringForSelect($string = null)
+    {
+        if ($string === null) {
+            $string = strtolower(Zmz_Translate::_('Select'));
+        }
+        return array('' => '---' . $string . '---');
+    }
+
 }
