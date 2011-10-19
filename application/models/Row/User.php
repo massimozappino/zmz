@@ -124,7 +124,7 @@ class Model_Row_User extends Zend_Db_Table_Row
     public function isPasswordValid($password)
     {
         $currentPassword = $this->password;
-        $hashedPassword = Model_Users::hashPassword($password);
+        $hashedPassword = Model_Users::hashPassword($password, $this->salt);
 
         if ($currentPassword == $hashedPassword) {
             return true;
