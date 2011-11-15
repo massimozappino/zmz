@@ -220,6 +220,81 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Zend_Registry::set('projectConfig', $projectConfig);
     }
 
+        /**
+     * Setup the logging
+     */
+    protected function _initLogging()
+    {
+        $logger = new Zend_Log();
+
+//        // Create log directory        
+//        $logDir = APPLICATION_PATH . '/../data/logs';
+//
+//        if (!file_exists($logDir)) {
+//            mkdir($logDir, 0777, true);
+//        }
+//
+//        $filePath = "{$logDir}/application.log";
+//        if (!file_exists($filePath)) {
+//            touch($filePath);
+//        }
+
+        $db = Zend_Registry::get('db');
+        try {
+            // Log db
+            $columnMapping = array(
+                'message' => 'message',
+                'timestamp' => 'timestamp',
+                'user_id' => 'user_id',
+                'ip' => 'ip',
+                'url' => 'url',
+                'priority_name' => 'priorityName',
+                'priority_level' => 'priority',
+                'agent' => 'agent'
+            );
+            $writerDb = new Zend_Log_Writer_Db($db, 'logs', $columnMapping);
+            $logger->addWriter($writerDb);
+
+
+//            // Log file
+//            $writerStream = new Zend_Log_Writer_Stream(($filePath));
+//            if ('production' == $this->getEnvironment()) {
+//                $filter = Zend_Log::DEBUG;
+//            } else {
+//                $filter = Zend_Log::INFO;
+//            }
+//            $writerStream->addFilter($filter);
+//
+//            $logger->addWriter($writerStream);
+            
+            
+            /**
+             * If you want to receive an email notification when Zend_Log::ERR
+             * or higher occur uncomment these lines
+             */
+//            $mail = new Zmz_Mail();
+//            $mail->addTo('youremail@domain.ldt');
+//            $writerEmail = new Zend_Log_Writer_Mail($mail);
+//            $writerEmail->addFilter(Zend_Log::ERR);
+//            $logger->addWriter($writerEmail);
+            
+        } catch (Zend_Log_Exception $e) {
+            if ($this->getEnvironment() != 'production') {
+                die($e->getMessage());
+            }
+        }
+
+        $userId = Model_Acl::getIdUser();
+
+        $logger->setEventItem('user_id', $userId > 0 ? $userId : null);
+        $logger->setEventItem('url', Zmz_Host::getUrl());
+        $logger->setEventItem('ip', Zmz_Host::getFilteredIp());
+        $logger->setEventItem('agent', Zmz_Host::getUserAgent());
+
+        $this->_logger = $logger;
+        Zend_Registry::set('logger', $logger);
+    }
+    
     protected function _initDefaultTimezone()
     {
         $projectConfig = Zend_Registry::get('projectConfig');
