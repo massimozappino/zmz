@@ -49,7 +49,11 @@ class Zmz_Form_Element_DatePicker extends ZendX_JQuery_Form_Element_DatePicker
             if (!$view) {
                 $view = Zend_Layout::getMvcInstance()->getView();
             }
-            $view->headScript()->appendFile($this->getJqueryI18nDirectory() . '/jquery.ui.datepicker-' . Zmz_Culture::getLanguage() . '.js');
+            
+            if (Zmz_Culture::getLanguage() != 'en') {
+                // ignore english translations
+                $view->headScript()->appendFile($this->getJqueryI18nDirectory() . '/jquery.ui.datepicker-' . Zmz_Culture::getLanguage() . '.js');
+            }
         }
         return parent::render($view);
     }
