@@ -36,7 +36,6 @@ class Model_Users extends Zend_Db_Table_Abstract
 
         $row = $this->createRow();
         $row->username = $values['username'];
-        $row->password = $this->hashPassword($values['password'], $salt);
         $row->salt = $salt;
         $row->email = $values['email'];
         $row->locale = Zmz_Culture::getLocale();
@@ -46,7 +45,7 @@ class Model_Users extends Zend_Db_Table_Abstract
         $row->code = self::generateCode();
         $row->date_code = $nowSql;
         $row->group_id = Model_Groups::USER;
-
+        $row->changePassword($value['password']);
         $row->save();
 
         if ($row->user_id) {
