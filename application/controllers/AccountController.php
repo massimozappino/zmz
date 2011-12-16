@@ -203,7 +203,7 @@ class AccountController extends Zmz_Controller_Action
                     try {
                         $db->beginTransaction();
 
-                        $userRow->changePassword($values['password']);
+                        $userRow->changePassword($values['password'], true);
                         
                         $sessionId = Model_Acl::getSessionId($userRow);
                         try {
@@ -495,7 +495,7 @@ class AccountController extends Zmz_Controller_Action
                                 try {
                                     $db->beginTransaction();
 
-                                    $userRow->changePassword($values['password']);
+                                    $userRow->changePassword($values['password'], true);
 
                                     // send notification email
                                     $view = $this->view;

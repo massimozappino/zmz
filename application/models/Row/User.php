@@ -133,15 +133,17 @@ class Model_Row_User extends Zend_Db_Table_Row
         }
     }
 
-    public function changePassword($password)
+    public function changePassword($password, $save = false)
     {
         $salt = Model_Users::generateSalt();
         $this->password = Model_Users::hashPassword($password, $salt);
         $this->salt = $salt;
-        $this->save();
+        if ($save) {
+            $this->save();
+        }
     }
 
-        /**
+    /**
      * Check if user status is confirmed
      */
     public function isConfirmed()
