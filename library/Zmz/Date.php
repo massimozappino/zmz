@@ -191,47 +191,47 @@ class Zmz_Date
         return $newFormat;
     }
 
-    public static function getHowLongAgo($date, $ago = 'ago')
+    public static function getHowLongAgo(Zend_Date $date, $ago = 'ago')
     {
         $locale = Zmz_Culture::getLocale();
-        $unit = Zend_Locale::getTranslationList('Unit');
+        $unitArray = Zend_Locale::getTranslationList('Unit');
         $display = array(
-            0 => $unit['year'],
-            1 => $unit['month'],
-            2 => $unit['day'],
-            3 => $unit['hour'],
-            4 => $unit['minute'],
-            5 => $unit['second'],
+            0 => $unitArray['year'],
+            1 => $unitArray['month'],
+            2 => $unitArray['day'],
+            3 => $unitArray['hour'],
+            4 => $unitArray['minute'],
+            5 => $unitArray['second'],
         );
 
-        $givenDate = clone $date;
-        $givenDate = self::toUTC($givenDate);
-        $now = self::toUTC();
+        $eventTimestamp = $date->getTimestamp();
 
-        if ($givenDate->isLater($now)) {
+        $totaldelay = time() - ($eventTimestamp);
+        $value = 0;
+        $unit = null;
+        if ($totaldelay <= 0) {
             return '';
         }
 
-        $dateCompare = getdate($givenDate->getTimestamp());
-        $current = getdate($now->getTimestamp());
-        $p = array('year', 'mon', 'mday', 'hours', 'minutes', 'seconds');
-        $factor = array(0, 12, 30, 24, 60, 60);
+        $array = array(0 => 31536000, 1 => 2678400, 2 => 86400, 3 => 3600, 4 => 60, 5 => 1);
 
-        for ($i = 0; $i < 6; $i++) {
-            if ($i > 0) {
-                $current[$p[$i]] += $current[$p[$i - 1]] * $factor[$i];
-                $dateCompare[$p[$i]] += $dateCompare[$p[$i - 1]] * $factor[$i];
-            }
-            if ($current[$p[$i]] - $dateCompare[$p[$i]] >= 1) {
-                $value = $current[$p[$i]] - $dateCompare[$p[$i]];
-                $string = str_replace('{0}', $value, ($value != 1) ? $display[$i]['other'] : $display[$i]['one']) . ' ' . $ago;
-
-                return $string;
+        foreach ($array as $k => $v) {
+            $value = floor($totaldelay / $v);
+            if ($value) {
+                $totaldelay = $totaldelay % $v;
+                $unit = $k;
+                break;
             }
         }
-        $diffDates = $now->sub($givenDate);
-        $value = (int) $diffDates->get(Zend_Date::SECOND_SHORT);
-        return str_replace('{0}', $value, ($value != 1) ? $display[5]['other'] : $display[5]['one']) . ' ' . $ago;
+
+        if ($value && $unit) {
+            $baseString = $value > 1 ? $display[$unit]['other'] : $display[$unit]['one'];
+
+            if ($ago) {
+                $ago = ' ' . $ago;
+            }
+            return Zmz_String::format($baseString, $value) . $ago;
+        }
     }
 
     public static function convertDateFormatToJquery($format = null)
