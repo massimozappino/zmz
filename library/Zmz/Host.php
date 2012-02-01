@@ -276,8 +276,14 @@ class Zmz_Host
      */
     public static function getReferer($default = null)
     {
-        if (isset($_SERVER['HTTP_REFERER'])) {
-            return $_SERVER['HTTP_REFERER'];
+
+        if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != "") {
+            if (strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) === false) {
+                // Cross-site request forgery
+                return $default;
+            } else {
+                return $_SERVER['HTTP_REFERER'];
+            }
         } else {
             if ($default) {
                 return (string) $default;
