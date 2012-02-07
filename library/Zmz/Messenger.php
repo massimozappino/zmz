@@ -15,6 +15,7 @@
  */
 class Zmz_Messenger
 {
+
     const ERROR = 'error';
     const WARNING = 'warning';
     const INFORMATION = 'information';
@@ -25,6 +26,11 @@ class Zmz_Messenger
     protected $_messages;
     protected $_read;
     protected $_tmpSession;
+    protected static $_typeError = self::ERROR;
+    protected static $_typeWarning = self::WARNING;
+    protected static $_typeInformation = self::INFORMATION;
+    protected static $_typeSuccess = self::SUCCESS;
+
     /**
      * Get singleton instance
      * 
@@ -65,6 +71,41 @@ class Zmz_Messenger
             }
         }
         return $messages;
+    }
+
+    public static function setTypeClass($typeConst, $className)
+    {
+        switch ($typeConst) {
+            case self::ERROR:
+                self::$_typeError = $className;
+                break;
+            case self::INFORMATION:
+                self::$_typeInformation = $className;
+                break;
+            case self::SUCCESS:
+                self::$_typeSuccess = $className;
+                break;
+            case self::WARNING:
+                self::$_typeWarning = $className;
+                break;
+        }
+    }
+
+    protected function _getFilteredTypes()
+    {
+        $types = array(
+            self::ERROR => self::$_typeError,
+            self::INFORMATION => self::$_typeInformation,
+            self::WARNING => self::$_typeWarning,
+            self::SUCCESS => self::$_typeSuccess,
+        );
+        return $types;
+    }
+
+    protected function _getFilteredType($type)
+    {
+        $types = self::_getFilteredTypes();
+        return @$types[$type];
     }
 
     public function readMessages($reset = true)
@@ -123,8 +164,9 @@ class Zmz_Messenger
 
     protected function _addMessage($type, $message, $after = false)
     {
+        $filteredType = $this->_getFilteredType($type);
         $messageRow = array(
-            'type' => $this->getPrefix() . $type,
+            'type' => $this->getPrefix() . $filteredType,
             'message' => $message
         );
         if ($after) {
