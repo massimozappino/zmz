@@ -38,11 +38,22 @@ class Zmz_Breadcrumbs
         return self::$_instance;
     }
 
+    /**
+     *
+     * @return array 
+     */
     public function getData()
     {
         return $this->_data;
     }
 
+    /**
+     *
+     * @param string $title
+     * @param string $url
+     * @param boolean $active
+     * @return \Zmz_Breadcrumbs 
+     */
     public function addElement($title, $url = null, $active = false)
     {
         $this->_data[$title] = array('url' => $url, 'active' => $active);
@@ -52,6 +63,11 @@ class Zmz_Breadcrumbs
         return $this;
     }
 
+    /**
+     *
+     * @param string $title
+     * @return \Zmz_Breadcrumbs 
+     */
     public function setActiveElement($title = null)
     {
         foreach ($this->_data as $k => &$v) {
@@ -61,6 +77,16 @@ class Zmz_Breadcrumbs
                 $v['active'] = false;
             }
         }
+        return $this;
+    }
+
+    /**
+     * Clear all breadcrumbs
+     * @return \Zmz_Breadcrumbs 
+     */
+    public function clear()
+    {
+        $this->_data = array();
         return $this;
     }
 

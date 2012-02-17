@@ -31,25 +31,24 @@ class Zmz_View_Helper_Breadcrumbs extends Zend_View_Helper_Abstract
         $count = count($this->_data);
         $i = 0;
         $html = '';
-        $html .= '<ul class="breadcrumb">';
-        foreach ($this->_data as $title => $value) {
-               $i++;
-            $active = @$value['active'] ? 'class="active"' : '';
-            $html .= "<li {$active}>";
-            if (@$value['url']) {
-                $html .= '<a href="' . @$value['url'] . '">' . $title . '</a>';
-            } else {
-                $html .= $title;
+        if (count($this->_data)) {
+            $html .= '<ul class="breadcrumb">';
+            foreach ($this->_data as $title => $value) {
+                $i++;
+                $active = @$value['active'] ? 'class="active"' : '';
+                $html .= "<li {$active}>";
+                if (@$value['url']) {
+                    $html .= '<a href="' . @$value['url'] . '">' . $title . '</a>';
+                } else {
+                    $html .= $title;
+                }
+                $html .= '</li>';
+                if ($i < $count) {
+                    $html .= '<span class="divider">/</span>';
+                }
             }
-            $html .= '</li>';
-            if ($i < $count) {
-                $html .= '<span class="divider">/</span>';
-            }
-         
+            $html .= '</ul>';
         }
-
-        $html .= '</ul>';
-        
         return $html;
     }
 
