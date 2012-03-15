@@ -1,19 +1,27 @@
 <?php
 
-class AccountController extends Zmz_Controller_Action
+class AccountController extends MyApp_Controller_Action
 {
 
-    public function init()
+    public function preDispatch()
     {
-        parent::init();
-        $layout = $this->getLayout();
-        $view = $layout->getView();
-        $this->getLayout()->sidemenu = $view->partial('account/_menu.phtml');
+        parent::preDispatch();
+        $this->view->title  = $this->_translate->_('Account');
+        $this->_breadcrumbs->addElement($this->view->title, $this->_helper->url(null), true);
     }
 
     public function indexAction()
     {
         Model_Acl::requireLogin();
+        $id = Model_Acl::getUserId();
+
+        $usersModel = new Model_Users();
+        $user = $usersModel->findById($id);
+        if (!$user) {
+            $this->error404('User not found');
+        }
+
+        $this->view->user = $user;
     }
 
     public function loginAction()
@@ -170,7 +178,6 @@ class AccountController extends Zmz_Controller_Action
 
     public function changepasswordAction()
     {
-        $this->view->title = Zmz_Translate::_('Change password');
         Model_Acl::requireLogin();
 
         $userRow = Model_Acl::getUserRow();
@@ -204,11 +211,11 @@ class AccountController extends Zmz_Controller_Action
                         $db->beginTransaction();
 
                         $userRow->changePassword($values['password'], true);
-                        
+
                         $sessionId = Model_Acl::getSessionId($userRow);
                         try {
-                        $sessionsModel = new Model_Sessions();
-                        $sessionsModel->deleteAllUserSessionsButCurrent($userRow->user_id, $sessionId);
+                            $sessionsModel = new Model_Sessions();
+                            $sessionsModel->deleteAllUserSessionsButCurrent($userRow->user_id, $sessionId);
                         } catch (Exception $e) {
                             
                         }
@@ -241,7 +248,6 @@ class AccountController extends Zmz_Controller_Action
 
     public function changeemailAction()
     {
-        $this->view->title = Zmz_Translate::_('Change email');
         Model_Acl::requireLogin();
 
         $userRow = Model_Acl::getUserRow();
@@ -663,7 +669,6 @@ class AccountController extends Zmz_Controller_Action
 
     public function editAction()
     {
-        $this->view->title = Zmz_Translate::_('Edit profile');
         Model_Acl::requireLogin();
 
         $userRow = Model_Acl::getUserRow();
@@ -707,7 +712,6 @@ class AccountController extends Zmz_Controller_Action
         $username = $this->getRequest()->getParam('username');
         $form = new Form_Registration();
         $elementUsername = $form->getElement('username');
-
 
         $usernameValidator = new MyApp_Validate_Username();
         if (!$usernameValidator->isValid($username)) {

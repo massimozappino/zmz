@@ -18,6 +18,7 @@ class Zmz_Breadcrumbs
 
     protected static $_instance;
     private $_data = array();
+    private $_ignoreSinglePage = false;
 
     private function __construct()
     {
@@ -45,6 +46,26 @@ class Zmz_Breadcrumbs
     public function getData()
     {
         return $this->_data;
+    }
+
+    /**
+     *
+     * @param type $flag
+     * @return \Zmz_Breadcrumbs 
+     */
+    public function setIgnoreSinglePage($flag)
+    {
+        $this->_ignoreSinglePage = (bool) $flag;
+        return $this;
+    }
+
+    /**
+     *
+     * @return type 
+     */
+    public function getIgnoreSinglePage()
+    {
+        return $this->_ignoreSinglePage;
     }
 
     /**

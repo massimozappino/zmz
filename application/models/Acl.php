@@ -53,7 +53,7 @@ class Model_Acl extends Zend_Acl
     public static function isLogged()
     {
 //        return MyApp_Auth::getInstance()->hasIdentity();
-        return!is_null(self::getIdentity());
+        return !is_null(self::getIdentity());
     }
 
     public static function requireLogin()
@@ -121,7 +121,16 @@ class Model_Acl extends Zend_Acl
         return $row->timezone;
     }
 
+    /**
+     * deprecated
+     * @return type 
+     */
     public static function getIdUser()
+    {
+        return self::getUserId();
+    }
+
+    public static function getUserId()
     {
         if (!self::isLogged()) {
             return false;
@@ -170,7 +179,7 @@ class Model_Acl extends Zend_Acl
 
         return $itsMe;
     }
-    
+
     public static function getSessionId($userId)
     {
         if ($userId instanceof Zend_Db_Table_Row) {
@@ -180,4 +189,5 @@ class Model_Acl extends Zend_Acl
         $sessionId = $authStorageDatabase->getSessionId();
         return $sessionId;
     }
+
 }

@@ -1,11 +1,17 @@
 <?php
 
-class ContactController extends Zmz_Controller_Action
+class ContactController extends MyApp_Controller_Action
 {
+
+    public function preDispatch()
+    {
+        parent::preDispatch();
+        $this->view->title = $this->_translate->_('Contact');
+        $this->_breadcrumbs->addElement($this->view->title, $this->_helper->url(null), true);
+    }
 
     public function indexAction()
     {
-        $this->view->title = Zmz_Translate::_('Contact');
         $form = new Form_Contact();
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();

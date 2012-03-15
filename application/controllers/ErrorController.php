@@ -1,6 +1,6 @@
 <?php
 
-class ErrorController extends Zmz_Controller_Action
+class ErrorController extends MyApp_Controller_Action
 {
 
     public function errorAction()

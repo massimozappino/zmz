@@ -1,6 +1,6 @@
 <?php
 
-class JsController extends Zmz_Controller_Action
+class JsController extends MyApp_Controller_Action
 {
 
     public function preDispatch()

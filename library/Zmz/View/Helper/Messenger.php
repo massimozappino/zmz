@@ -30,13 +30,12 @@ class Zmz_View_Helper_Messenger extends Zend_View_Helper_Abstract
 
     protected function _draw($id, $messages)
     {
+        $html = '<div class="alert ' . $id . '">' . "\n";
+        $html .= '<a class="close" data-dismiss="alert">&times;</a>' . "\n";
 
-        $html = '<div class="' . $id . '">' . "\n";
-        $html .= "    <ul>\n";
         foreach ($messages as $k => $v) {
-            $html .= '        <li>' . $v . "</li>\n";
+            $html .= '        <p class="bold">' . $v . "</p>\n";
         }
-        $html .= "    </ul>\n";
 
         $html .= '</div>' . "\n";
 

@@ -13,20 +13,22 @@
         <?= $this->headTitle(); ?>       
         <?php
         $this->headLink()
-//                ->appendStylesheet($this->baseUrl() . '/css/style.css', 'all')
+                ->appendStylesheet($this->baseUrl() . '/bootstrap/css/bootstrap.min.css', 'all')
                 ->appendStylesheet($this->baseUrl() . '/css/form.css', 'all')
                 ->appendStylesheet($this->baseUrl() . '/css/utils.css', 'all')
-                ->appendStylesheet($this->baseUrl() . '/css/messenger.css', 'all')
-                ->appendStylesheet($this->baseUrl() . '/css/bootstrap.min.css', 'all')
-                ->appendStylesheet($this->baseUrl() . '/jquery/css/black-tie/jquery-ui-1.8.16.custom.css', 'all');
+                ->appendStylesheet($this->baseUrl() . '/css/default.css', 'all')
+                ->appendStylesheet($this->baseUrl() . '/jquery/css/black-tie/jquery-ui-latest.css', 'all')
+        ;
 
         $this->headScript()
+                ->appendFile($this->baseUrl() . '/bootstrap/js/bootstrap.min.js')
                 ->appendFile($this->baseUrl() . '/js/zmz')
-                ->appendFile($this->baseUrl() . '/js/custom.js');
+                ->appendFile($this->baseUrl() . '/js/custom.js')
+        ;
 
         $this->jQuery()
-                ->setLocalPath($this->baseUrl() . '/jquery/js/jquery-1.6.2.min.js')
-                ->setUiLocalPath($this->baseUrl() . '/jquery/js/jquery-ui-1.8.16.custom.min.js')
+                ->setLocalPath($this->baseUrl() . '/jquery/js/jquery-latest.min.js')
+                ->setUiLocalPath($this->baseUrl() . '/jquery/js/jquery-ui-latest.min.js')
                 ->uiEnable();
         ?>
 
@@ -49,15 +51,18 @@
 
         <?php $this->captureJavascript()->start() ?>
         <script type="text/javascript">
-            function closeMessenger() {
-                $("#messenger").fadeOut(300);
-            }
+
         </script>
         <?php $this->addJavascript($this->captureJavascript()->end()) ?>
         <?= $this->jQuery() // must be called before headScript() ?>
         <?= $this->headScript() ?>
         <?= $this->headLink() ?>
-
+        
+        <style>
+            body {
+                padding-top: 60px;
+            }
+        </style>
     </head>
     <body>
         <div id="dialog-locale" title="<?= $this->translate()->_('Change your settings') ?>" class="hidden">
@@ -65,48 +70,52 @@
             <div id="dialog-locale-content" class="hidden"></div>
         </div>
 
-        <div class="topbar">
-            <div class="fill">
+        <div class="navbar navbar-fixed-top" data-dropdown="dropdown">          
+            <div class="navbar-inner">
                 <div class="container">
-                    <h3><a href="<?= $this->url(array(), 'default', true) ?>"><?= $projectConfig->title ?></a></h3>
-                    <ul>
+                    <a class="brand" href="<?= $this->url(array(), 'default', true) ?>">
+                        <?= $projectConfig->title ?>
+                    </a>
+                    <ul class="nav">
                         <li><a href="<?= $this->url(array(), 'default', true) ?>"><?= $this->translate()->_('Home') ?></a></li>
                         <li><a href="<?= $this->url(array('controller' => 'contact'), 'default', true) ?>"><?= $this->translate()->_('Contact') ?></a></li>
                     </ul>
-                    <ul class="nav secondary-nav">
 
+                    <ul class="nav pull-right">
                         <?php if (Model_Acl::isLogged()): ?>
-                            <li class="menu">
-                                <a href="<?= $this->url(array("controller" => "account", "action" => "index"), 'default', true) ?>"><?= Model_Acl::getUsername() ?></a>
-                            </li>
-                            <?php if (Model_Acl::isUserAllowed('admin', 'all')): ?>
-                                <li class="menu">
-                                    <a href="<?= $this->url(array(), 'admin', true) ?>">Backend</a>
-                                </li>
-                            <?php endif; ?>
-                            <li class="menu">
-                                <a href="<?= $this->url(array("controller" => "account", "action" => "logout"), 'default', true) ?>"><?= $this->translate()->_('Logout') ?></a>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span><?= Model_Acl::getUserRow()->username ?></span> <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="<?= $this->url(array("controller" => "account", "action" => "index"), 'default', true) ?>"><?= Zmz_Translate::_('Account') ?></a></li>
+                                    <li><a href="<?= $this->url(array("controller" => "account", "action" => "edit"), 'default', true) ?>"><?= Zmz_Translate::_('Settings') ?></a></li>
+                                    <?php if (Model_Acl::isUserAllowed('admin', 'all')): ?>
+                                        <li class="menu">
+                                            <a href="<?= $this->url(array(), 'admin', true) ?>">Backend</a>
+                                        </li>
+                                    <?php endif; ?>
+                                    <li class="divider"></li>
+                                    <li><a href="<?= $this->url(array("controller" => "account", "action" => "logout"), 'default', true) ?>"><?= $this->translate()->_('Exit') ?></a></li>
+                                </ul>
                             </li>
                         <?php else: ?>
-                            <li class="menu">
+                            <li class="divider-vertical"></li>
+                            <li>
                                 <a href="<?= $this->url(array("controller" => "account", "action" => "login"), 'default', true) ?>"><?= $this->translate()->_('Login') ?></a>
                             </li>
-                            <li class="menu">
-                                <a href="<?= $this->url(array("controller" => "account", "action" => "signin"), 'default', true) ?>"><?= $this->translate()->_('Sign in') ?></a>
+                            <li class="divider-vertical"></li>
+                            <li>
+                                <a href="<?= $this->url(array("controller" => "account", "action" => "signin"), 'default', true) ?>"><?= $this->translate()->_('Sign up') ?></a>
                             </li>
-
                         <?php endif; ?>
                     </ul>
-
                 </div>
             </div>
         </div>
 
         <div class="container"> 
 
-            <div style="height: 60px;"></div>
+            <?= $this->breadcrumbs() ?>
             <div id="messenger"><?= $this->messenger() ?></div>
-
             <?= $this->layout()->content ?>
             <footer>
                 <div class="clear-float">
@@ -124,8 +133,6 @@
                 </div>
             </footer>
         </div>
-
-
 
     </body>
 </html>

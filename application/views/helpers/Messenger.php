@@ -1,6 +1,6 @@
 <?php
 
-class MyApp_Helper_Messenger extends Zmz_View_Helper_Messenger
+class MyApp_Helper_Messenger extends Zend_View_Helper_Abstract
 {
 
     public function messenger()
@@ -17,8 +17,8 @@ class MyApp_Helper_Messenger extends Zmz_View_Helper_Messenger
 
     protected function _draw($id, $messages)
     {
-        $html = '<div class="alert-message ' . $id . '">' . "\n";
-        $html .= '<a class="close" href="#" onclick="javascript:closeMessenger();">x</a>' . "\n";
+        $html = '<div class="alert ' . $id . '">' . "\n";
+        $html .= '<a class="close" data-dismiss="alert">&times;</a>' . "\n";
 
         foreach ($messages as $k => $v) {
             $html .= '        <p class="bold">' . $v . "</p>\n";
@@ -30,4 +30,3 @@ class MyApp_Helper_Messenger extends Zmz_View_Helper_Messenger
     }
 
 }
-

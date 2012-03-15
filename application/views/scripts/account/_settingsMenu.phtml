@@ -1,0 +1,27 @@
+<?php
+$selected = $this->selected;
+$menu = array(
+    'account' => array(
+        'url' => $this->url(array('action' => 'index', 'controller' => 'account'), 'default', true),
+        'name' => $this->translate()->_('Account')
+    ),
+    'edit' => array(
+        'url' => $this->url(array('action' => 'edit', 'controller' => 'account'), 'default', true),
+        'name' => $this->translate()->_('Edit profile')
+    ),
+    'email' => array(
+        'url' => $this->url(array('action' => 'changeemail', 'controller' => 'account'), 'default', true),
+        'name' => $this->translate()->_('Email')
+    ),
+    'password' => array(
+        'url' => $this->url(array('action' => 'changepassword', 'controller' => 'account'), 'default', true),
+        'name' => $this->translate()->_('Password')
+    )
+);
+?>
+<div class="spacer"></div>
+<ul class="nav nav-tabs">
+    <?php foreach ($menu as $k => $v): ?>
+        <li class="<?= $k == $selected ? 'active' : '' ?>"><a href="<?= $v['url'] ?>"><?= $v['name'] ?></a></li>
+    <?php endforeach; ?>
+</ul>

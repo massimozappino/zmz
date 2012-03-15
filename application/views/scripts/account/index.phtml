@@ -1,2 +1,27 @@
 <?= $this->title() ?>
-TODO
+<?= $this->partial('account/_settingsMenu.phtml', array('selected' => 'account')) ?>
+
+<table class="table table-bordered table-striped">
+    <tbody>
+        <tr>
+            <th class="span3"><?= $this->translate()->_('Username') ?></th>
+            <td><?= $this->user->username ?></td>
+        </tr>
+        <tr>
+            <th><?= $this->translate()->_('Email') ?></th>
+            <td><?= $this->user->email ?></td>
+        </tr>
+                <tr>
+            <th><?= $this->translate()->_('First name') ?></th>
+            <td><?= $this->user->name ?></td>
+        </tr>
+                       <tr>
+            <th><?= $this->translate()->_('Last name') ?></th>
+            <td><?= $this->user->surname ?></td>
+        </tr>
+                            <tr>
+            <th><?= $this->translate()->_('Member since') ?></th>
+            <td><?= Zmz_Date::getDateFromDb($this->user->date_registration) ?></td>
+        </tr>
+    </tbody>
+</table>

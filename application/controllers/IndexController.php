@@ -1,16 +1,10 @@
 <?php
 
-class IndexController extends Zmz_Controller_Action
+class IndexController extends MyApp_Controller_Action
 {
-
-    public function init()
-    {
-        /* Initialize action controller here */
-    }
 
     public function indexAction()
     {
-
     }
 
 }

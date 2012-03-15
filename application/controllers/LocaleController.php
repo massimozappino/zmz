@@ -1,6 +1,6 @@
 <?php
 
-class LocaleController extends Zmz_Controller_Action
+class LocaleController extends MyApp_Controller_Action
 {
 
     public function indexAction()

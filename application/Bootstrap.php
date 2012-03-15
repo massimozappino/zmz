@@ -24,7 +24,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         require_once APPLICATION_PATH . '/../library/functions.php';
         $messenger = Zmz_Messenger::getInstance();
-        $messenger->setPrefix('');
+        $messenger->setPrefix('alert-');
+        
+        Zmz_Breadcrumbs::getInstance()->setIgnoreSinglePage(true);
     }
 
 

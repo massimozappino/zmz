@@ -31,6 +31,12 @@ class Zmz_View_Helper_Breadcrumbs extends Zend_View_Helper_Abstract
         $count = count($this->_data);
         $i = 0;
         $html = '';
+        
+        // check ignoreSinglePage
+        if (count($this->_data) == 1 && Zmz_Breadcrumbs::getInstance()->getIgnoreSinglePage()) {
+            return $html;
+        }
+        
         if (count($this->_data)) {
             $html .= '<ul class="breadcrumb">';
             foreach ($this->_data as $title => $value) {
