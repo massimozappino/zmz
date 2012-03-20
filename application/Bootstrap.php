@@ -10,7 +10,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         require_once 'Zend/Loader/Autoloader.php';
 
         $loader = Zend_Loader_Autoloader::getInstance()
-                        ->setFallbackAutoloader(true);
+                ->setFallbackAutoloader(true);
 
         $moduleLoader = new Zend_Application_Module_Autoloader(array(
                     'namespace' => '',
@@ -25,10 +25,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         require_once APPLICATION_PATH . '/../library/functions.php';
         $messenger = Zmz_Messenger::getInstance();
         $messenger->setPrefix('alert-');
-        
+
         Zmz_Breadcrumbs::getInstance()->setIgnoreSinglePage(true);
     }
-
 
     protected function _initView()
     {
@@ -127,12 +126,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     protected function _initCulture()
     {
-        // cookie adapter
-        /*
-          $httpCookieObject = new Zend_Http_Cookie('culture', null, 'test');
-          $cookie = new Zmz_Cookie($httpCookieObject);
-          $adapter = new Zmz_Culture_Adapter_Cookie($cookie);
-         */
+//        // cookie adapter
+//        $httpCookieObject = new Zend_Http_Cookie('culture', null, Zmz_Host::getHostname());
+//        $cookie = new Zmz_Cookie($httpCookieObject);
+//        $adapter = new Zmz_Culture_Adapter_Cookie($cookie);
+
 
         // session adapter
         $session = new Zend_Session_Namespace('culture');
@@ -161,8 +159,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         try {
             $translator->addTranslation(
-                    $languagePath . '/' . $language . '/' . $language . '.mo',
-                    $language
+                    $languagePath . '/' . $language . '/' . $language . '.mo', $language
             );
         } catch (Exception $e) {
             // no translation found
@@ -222,7 +219,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Zend_Registry::set('projectConfig', $projectConfig);
     }
 
-        /**
+    /**
      * Setup the logging
      */
     protected function _initLogging()
@@ -268,8 +265,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 //            $writerStream->addFilter($filter);
 //
 //            $logger->addWriter($writerStream);
-            
-            
+
+
             /**
              * If you want to receive an email notification when Zend_Log::ERR
              * or higher occur uncomment these lines
@@ -279,7 +276,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 //            $writerEmail = new Zend_Log_Writer_Mail($mail);
 //            $writerEmail->addFilter(Zend_Log::ERR);
 //            $logger->addWriter($writerEmail);
-            
         } catch (Zend_Log_Exception $e) {
             if ($this->getEnvironment() != 'production') {
                 die($e->getMessage());
@@ -296,7 +292,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $this->_logger = $logger;
         Zend_Registry::set('logger', $logger);
     }
-    
+
     protected function _initDefaultTimezone()
     {
         $projectConfig = Zend_Registry::get('projectConfig');
