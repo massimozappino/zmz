@@ -16,14 +16,19 @@
 class Zmz_View_Helper_HowLongAgo extends Zend_View_Helper_Abstract
 {
 
-    public function howLongAgo($date, $ago = null)
+    public function howLongAgo($date, $ago = null, $format = null)
     {
         if ($ago === null) {
             $ago = Zmz_Translate::_('ago');
         }
+        
+        if ($format === null) {
+            $format = Zmz_Date::getLocaleDateTimeFormat('medium');
+        }
+        
         $string = Zmz_Date::getHowLongAgo($date, $ago);
         $html = '<span title="'
-                . Zmz_Date::printDate($date, Zmz_Date::getLocaleDateTimeFormat('medium'))
+                . Zmz_Date::printDate($date, $format)
                 . '">' . $string . '</span>';
 
         return $html;

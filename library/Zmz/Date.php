@@ -15,6 +15,7 @@
  */
 class Zmz_Date
 {
+
     const SQL_DATETIME = 'yyyy-MM-dd HH:mm:ss';
 
     protected static $_localeDateFormat = array();
@@ -193,6 +194,7 @@ class Zmz_Date
 
     public static function getHowLongAgo(Zend_Date $date, $ago = 'ago')
     {
+        $howLongAgo = "";
         $locale = Zmz_Culture::getLocale();
         $unitArray = Zend_Locale::getTranslationList('Unit');
         $display = array(
@@ -203,10 +205,10 @@ class Zmz_Date
             4 => $unitArray['minute'],
             5 => $unitArray['second'],
         );
-
         $eventTimestamp = $date->getTimestamp();
 
         $totaldelay = time() - ($eventTimestamp);
+
         $value = 0;
         $unit = null;
         if ($totaldelay <= 0) {
@@ -223,15 +225,15 @@ class Zmz_Date
                 break;
             }
         }
-
-        if ($value && $unit) {
+        if ($value && $unit !== null) {
             $baseString = $value > 1 ? $display[$unit]['other'] : $display[$unit]['one'];
 
             if ($ago) {
                 $ago = ' ' . $ago;
             }
-            return Zmz_String::format($baseString, $value) . $ago;
+            $howLongAgo = Zmz_String::format($baseString, $value) . $ago;
         }
+        return $howLongAgo;
     }
 
     public static function convertDateFormatToJquery($format = null)
