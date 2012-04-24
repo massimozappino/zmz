@@ -67,6 +67,12 @@ class Zmz_Object implements Countable, Iterator, ArrayAccess
         if (!$values) {
             return;
         }
+        $this->setData($values);
+        $this->_count = count($this->_data);
+    }
+
+    public function setData($values)
+    {
         foreach ($values as $key => $value) {
             if (is_array($value)) {
                 $this->_data[$key] = new self($value, $this->_allowModifications);
@@ -74,7 +80,6 @@ class Zmz_Object implements Countable, Iterator, ArrayAccess
                 $this->_data[$key] = $value;
             }
         }
-        $this->_count = count($this->_data);
     }
 
     public static function getInstance($values = null, $throwException = true, $writable = true)
@@ -255,7 +260,7 @@ class Zmz_Object implements Countable, Iterator, ArrayAccess
 
     public function readOnly()
     {
-        return!$this->_allowModifications;
+        return !$this->_allowModifications;
     }
 
     public function count()
