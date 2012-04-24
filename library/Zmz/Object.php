@@ -80,6 +80,7 @@ class Zmz_Object implements Countable, Iterator, ArrayAccess
                 $this->_data[$key] = $value;
             }
         }
+        return $this;
     }
 
     public static function getInstance($values = null, $throwException = true, $writable = true)
