@@ -245,5 +245,35 @@ class Zmz_Date
         return $newFormat;
     }
 
+    public static function getExcelDateTime(Zend_Date $date)
+    {
+        $tmpDate = clone $date;
+        $diffDates = $tmpDate->toValue() - $tmpDate->getGmtOffset();
+        $diffDays = ($diffDates / 60 / 60 / 24) + 25569;
+
+        return $diffDays;
+    }
+
+    public static function getExcelDate(Zend_Date $date)
+    {
+        $tmpDate = clone $date;
+        $tmpDate->setHour(0);
+        $tmpDate->setMinute(0);
+        $tmpDate->setSecond(0);
+
+        $diffDates = $tmpDate->toValue() - $tmpDate->getGmtOffset();
+        $diffDays = ceil($diffDates / 60 / 60 / 24) + 25569;
+        return $diffDays;
+    }
+
+    public static function getExcelTime(Zend_Date $date)
+    {
+        // seconds in a day
+        $totalSeconds = 3600 * 24;
+        $time = ($date->get(Zend_Date::HOUR) * 3600) + ($date->get(Zend_Date::MINUTE) * 60) + ($date->get(Zend_Date::SECOND));
+
+        return $time / $totalSeconds;
+    }
+
 }
 
