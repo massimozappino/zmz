@@ -73,6 +73,10 @@ class Zmz_Object implements Countable, Iterator, ArrayAccess
 
     public function setData($values)
     {
+        if ($values instanceof Zend_Db_Table_Rowset) {
+            $values = $values->toArray();
+        }
+        
         foreach ($values as $key => $value) {
             if (is_array($value)) {
                 $this->_data[$key] = new self($value, $this->_allowModifications);
