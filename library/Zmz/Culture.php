@@ -299,13 +299,17 @@ class Zmz_Culture
             $offset = intval($timezoneArray[0]);
             $dts = intval($timezoneArray[1]);
             $guessedTimezone = timezone_name_from_abbr('', $offset, $dts);
+            dd($guessedTimezone);
 
+            try {
+                $tz = new DateTimeZone($guessedTimezone);
+                $guessedLocation = $tz->getLocation();
+//                $guessedLocationCode = $guessedLocation['country_code'];
 
-            $tz = new DateTimeZone($guessedTimezone);
-            $guessedLocation = $tz->getLocation();
-            $guessedLocationCode = $guessedLocation['country_code'];
-
-            $timezone = $guessedTimezone;
+                $timezone = $guessedTimezone;
+            } catch (Exception $e) {
+                $timezone = self::$defaultTimezone;
+            }
         } else {
             $timezone = self::$defaultTimezone;
         }
