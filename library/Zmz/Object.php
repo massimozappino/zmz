@@ -76,7 +76,7 @@ class Zmz_Object implements Countable, Iterator, ArrayAccess
         if ($values instanceof Zend_Db_Table_Rowset) {
             $values = $values->toArray();
         }
-        
+
         foreach ($values as $key => $value) {
             if (is_array($value)) {
                 $this->_data[$key] = new self($value, $this->_allowModifications);
@@ -189,7 +189,7 @@ class Zmz_Object implements Countable, Iterator, ArrayAccess
         $array = array();
         $data = $this->_data;
         foreach ($data as $key => $value) {
-            if ($value instanceof self) {
+            if (is_object($value) && method_exists($value, 'toArray')) {
                 $array[$key] = $value->toArray();
             } else {
                 $array[$key] = $value;
