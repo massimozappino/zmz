@@ -36,6 +36,9 @@ class Zmz_Date
     public static function printDate($date = null, $format = null, $locale = null)
     {
         if (!$date instanceof Zend_Date) {
+            if (!$date) {
+                return '';
+            }
             $date = new Zend_Date($date, null, $locale);
         }
         if ($format === null) {
