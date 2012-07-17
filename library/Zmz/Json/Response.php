@@ -15,6 +15,7 @@
  */
 class Zmz_Json_Response
 {
+
     const SUCCESS = 1;
     const ERROR = 0;
     const DEFAULT_CODE = 0;
@@ -31,9 +32,6 @@ class Zmz_Json_Response
 
     public static function error($error = null, $code = null)
     {
-        if (empty($error)) {
-            $error = 'Generic error';
-        }
         return new self(null, $error, self::ERROR, $code);
     }
 
@@ -95,11 +93,33 @@ class Zmz_Json_Response
 
     public function setError($error)
     {
-        if ($error instanceof Exception) {
-            $errorString = $error->getMessage();
+        if (Zmz_Utils::isDebug()) {
+            if ($error instanceof Exception) {
+                $errorString = $error->getMessage();
+            }
         } else {
-            $errorString = (string) $error;
+            if ($error instanceof Zmz_Json_Response_Exception) {
+                $errorString = $error->getMessage();
+            }
         }
+
+        if (empty($errorString)) {
+            $errorString = 'Application error';
+        }
+//
+//        $errorString = (string) $error;
+//
+//
+//        if ($error instanceof Zmz_Json_Response_Exception) {
+//            $errorString = $error->getMessage();
+//        }
+//
+//
+//        if ($error instanceof Exception) {
+//            $errorString = $error->getMessage();
+//        } else {
+//            $errorString = (string) $error;
+//        }
 
         $this->_error = $errorString;
     }

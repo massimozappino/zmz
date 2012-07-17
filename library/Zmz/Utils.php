@@ -147,7 +147,7 @@ class Zmz_Utils
         if ($url) {
             @list($base, $queryString) = explode('?', $url);
         }
-        
+
         return $queryString;
     }
 
@@ -162,9 +162,20 @@ class Zmz_Utils
                 $query[$tmp[0]] = $tmp[1];
             }
         }
-        
-        
+
         return $query;
+    }
+
+    public static function isDebug()
+    {
+        $debug = APPLICATION_ENV == 'development';
+        return $debug;
+    }
+
+    public static function isProduction()
+    {
+        $debug = APPLICATION_ENV == 'production';
+        return $debug;
     }
 
 }
