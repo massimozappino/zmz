@@ -13,7 +13,7 @@
  * @copyright  Copyright (c) 2010-2011 Massimo Zappino (http://www.zappino.it)
  * @license    http://www.gnu.org/licenses/gpl-3.0.html     GNU GPLv3 License
  */
-class Zmz_Json_Response_Exception extends Zend_Exception
+class Zmz_Json_Response_Exception extends Zmz_Error_Exception
 {
     
 }

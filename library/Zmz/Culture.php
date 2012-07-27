@@ -25,6 +25,17 @@ class Zmz_Culture
     protected static $countryLanguages;
 
     /**
+     * Reset culture and adapter storage value 
+     */
+    public static function resetCulture() {
+        Zend_Registry::set('Zend_Locale', null);
+        self::getAdapter()->resetStorage();
+        self::$locale = null;
+        self::$timezone = null;
+    }
+            
+    
+    /**
      * Set locale and timezone only if locale or timezone are not set previously
      *
      * @param Zend_Locale|string $locale
@@ -184,9 +195,8 @@ class Zmz_Culture
             if (self::$locale) {
                 $locale = self::$locale;
             } else {
-//                $locale = new Zend_Locale(self::$defaultLocale);
                 self::setLocale(null);
-//                throw new Zmz_Culture_Exception("'locale' is not set in Zmz_Culture object, use setLocale()");
+                $locale = self::getLocale();
             }
         }
         return $locale;

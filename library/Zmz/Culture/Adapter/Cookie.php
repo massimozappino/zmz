@@ -78,11 +78,8 @@ class Zmz_Culture_Adapter_Cookie extends Zmz_Culture_Adapter_Abstract
 
     public function resetStorage()
     {
-        $oldValue = $this->getStorage()->getvalue();
-        $values = @unserialize($oldValue);
-        foreach ($values as $v) {
-            unset($this->$v);
-        }
+        $this->getStorage()->setValue(null);
+        $this->tmpValue = null;
     }
 
 }
