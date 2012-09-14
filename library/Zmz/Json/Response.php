@@ -93,7 +93,7 @@ class Zmz_Json_Response
 
     public function setError($error)
     {
-        if (Zmz_Utils::isProduction() && true) {
+        if (Zmz_Utils::isProduction()) {
             if ($error instanceof Zmz_Json_Response_Exception) {
                 $errorString = $error->getMessage();
             }
