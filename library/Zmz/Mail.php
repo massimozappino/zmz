@@ -16,15 +16,15 @@
 class Zmz_Mail extends Zend_Mail
 {
 
-    protected static $_email;
-    protected static $_name;
+    protected static $_emailFrom;
+    protected static $_nameFrom;
     protected static $_defaultCharset = 'UTF-8';
 
     public function __construct($charset = 'UTF-8')
     {
         parent::__construct($charset);
-        if (!is_null(self::$_email)) {
-            parent::setFrom(self::$_email, self::$_name);
+        if (!is_null(self::$_emailFrom)) {
+            parent::setFrom(self::$_emailFrom, self::$_nameFrom);
         }
     }
 
@@ -44,19 +44,19 @@ class Zmz_Mail extends Zend_Mail
 
     public static function setDefaultFrom($email, $name)
     {
-        self::$_email = $email;
-        self::$_name = $name;
+        self::$_emailFrom = $email;
+        self::$_nameFrom = $name;
     }
 
     public static function clearDefaultFrom()
     {
-        self::$_email = null;
-        self::$_name = null;
+        self::$_emailFrom = null;
+        self::$_nameFrom = null;
     }
 
     public function setFrom($email, $name = null)
     {
-        if (!is_null(self::$_email)) {
+        if (!is_null(self::$_emailFrom)) {
             $this->_from = null;
             self::clearDefaultFrom();
             $this->_clearHeader('From');

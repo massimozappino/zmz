@@ -22,6 +22,7 @@ class Zmz_Translate
      * @var Zmz_Translate
      */
     protected static $_instance;
+
     /**
      *
      * @var Zend_Translate
