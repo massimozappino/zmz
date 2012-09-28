@@ -104,9 +104,12 @@ class Zmz_Json_Response
         }
 
         if (empty($errorString)) {
-            $errorString = 'Application error';
+            if (is_string($error)) {
+                $errorString = $error;
+            } else {
+                $errorString = 'Application error';
+            }
         }
-//
 //        $errorString = (string) $error;
 //
 //
