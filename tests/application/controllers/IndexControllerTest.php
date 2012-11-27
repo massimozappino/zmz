@@ -1,20 +1,21 @@
 <?php
 
-require_once 'PHPUnit/Framework/TestCase.php';
-
-class IndexControllerTest extends PHPUnit_Framework_TestCase
+class IndexControllerTest extends ControllerTestCase
 {
 
-    public function setUp()
+    public function testIndexAction()
     {
-        /* Setup Routine */
+        $this->dispatch('/');
+        $this->assertController('index');
+        $this->assertAction('index');
     }
 
-    public function tearDown()
+    public function testErrorURL()
     {
-        /* Tear Down Routine */
+        $this->dispatch('foo');
+        $this->assertController('error');
+        $this->assertAction('error');
     }
-
 
 }
 

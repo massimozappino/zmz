@@ -113,6 +113,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
     public function _initDatabase()
     {
+
         $this->bootstrap('db');
         $db = $this->getPluginResource('db')->getDbAdapter();
         Zend_Db_Table::setDefaultAdapter($db);

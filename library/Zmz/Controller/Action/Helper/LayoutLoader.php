@@ -19,6 +19,9 @@ class Zmz_Controller_Action_Helper_LayoutLoader extends Zend_Controller_Action_H
     public function preDispatch()
     {
         $bootstrap = $this->getActionController()->getInvokeArg('bootstrap');
+        if ($bootstrap == null) {
+            return;
+        }
         $config = $bootstrap->getOptions();
         $module = $this->getRequest()->getModuleName();
 

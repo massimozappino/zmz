@@ -12,7 +12,7 @@ function d($value, $vardump = false)
 
 function debug($value, $vardump = false, $die = false)
 {
-    if (APPLICATION_ENV == 'development') {
+    if (APPLICATION_ENV != 'production') {
         echo "<pre>";
         if ($vardump) {
             var_dump($value);

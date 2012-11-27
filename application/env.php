@@ -3,4 +3,6 @@
 $environment = 'development';
 //$environment = 'production';
 
-define('APPLICATION_ENV', $environment);
+if (!defined('APPLICATION_ENV')) {
+    define('APPLICATION_ENV', $environment);
+}
