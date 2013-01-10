@@ -229,7 +229,7 @@ class Zmz_Date
             }
         }
         if ($value && $unit !== null) {
-            $baseString = $value > 1 ? $display[$unit]['other'] : $display[$unit]['one'];
+            $baseString = $value > 1 ? @$display[$unit]['other'] : @$display[$unit]['one'];
 
             if ($ago) {
                 $ago = ' ' . $ago;
