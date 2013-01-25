@@ -105,8 +105,8 @@
         </exec>
     </target>
     
-    <target name="build" depends="prepare, phploc, phpmd, phpcs, phpcpd, pdepend, phpunit, phpcb"/>
-
+   <!-- <target name="build" depends="prepare, phploc, phpmd, phpcs, phpcpd, pdepend, phpunit, phpcb"/>-->
+    <target name="build" depends="prepare, phploc, phpunit, phpcb"/>
    
 
 </project>
