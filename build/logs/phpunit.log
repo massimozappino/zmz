@@ -1,0 +1,13 @@
+PHPUnit 3.7.13 by Sebastian Bergmann.
+
+Configuration read from /home/max/Projects/Php/zmz/tests/phpunit.xml
+
+.
+
+Time: 0 seconds, Memory: 6.25Mb
+
+[30;42m[2KOK (1 test, 1 assertion)
+[0m[2K
+Generating code coverage report in Clover XML format ... done
+
+Generating code coverage report in HTML format ... done

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="All tests" tests="1" assertions="1" failures="0" errors="0" time="0.002924">
+    <testsuite name="Library" tests="1" assertions="1" failures="0" errors="0" time="0.002924">
+      <testsuite name="Zend_VersionTest" file="/home/max/Projects/Php/zmz/tests/library/Zend/VersionTest.php" fullPackage="Library.Zend" category="Tests" package="Library" subpackage="Zend" tests="1" assertions="1" failures="0" errors="0" time="0.002924">
+        <testcase name="testVersion" class="Zend_VersionTest" file="/home/max/Projects/Php/zmz/tests/library/Zend/VersionTest.php" line="15" assertions="1" time="0.002924"/>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>
