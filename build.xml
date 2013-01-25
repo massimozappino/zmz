@@ -58,7 +58,7 @@
         </exec>
     </target>
     <target name="phpmd" depends="prepare">
-        <exec dir="${basedir}" executable="phpmd" failonerror="false" output="${logsDir}/phpmd.log">
+        <exec dir="${basedir}" executable="phpmd" failonerror="true" output="${logsDir}/phpmd.log">
             <arg line="${basedir}" />
             <arg line="xml" />
             <arg line="naming,unusedcode,codesize" />
