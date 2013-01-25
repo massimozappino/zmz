@@ -118,8 +118,14 @@
   <exec executable="phpdox"/>
  </target>-->
 
- <target name="phpunit" description="Run unit tests with PHPUnit">
-  <exec executable="phpunit" failonerror="true"/>
+ <target name="phpunit">
+        <exec dir="${basedir}/tests" executable="phpunit" output="${basedir}/build/logs//phpunit.log" failonerror="true">
+            <arg line="--verbose"/>
+            <arg line="--log-junit '${basedir}/build/logs/junit.xml'"/>
+            <arg line="--coverage-clover '${basedir}/build/logs/clover.xml'"/>
+            <arg line="--coverage-html '${basedir}/build/logs/clover'"/>
+            <arg line="TestSuite.php"/>
+        </exec>
  </target>
 
  <target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
