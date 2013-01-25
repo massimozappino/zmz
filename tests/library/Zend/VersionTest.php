@@ -14,6 +14,6 @@ class Zend_VersionTest extends PHPUnit_Framework_TestCase
      */
     public function testVersion()
     {
-        $this->assertFalse(version_compare(Zend_Version::VERSION, '1.11', '>='));
+        $this->assertTrue(version_compare(Zend_Version::VERSION, '1.11', '>='));
     }
 }
