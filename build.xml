@@ -58,7 +58,7 @@
         </exec>
     </target>
     <target name="phpmd" depends="prepare">
-        <exec dir="${basedir}" executable="phpmd" failonerror="true" output="${logsDir}/phpmd.log">
+        <exec dir="${basedir}" executable="phpmd" failonerror="false" output="${logsDir}/phpmd.log">
             <arg line="${basedir}" />
             <arg line="xml" />
             <arg line="naming,unusedcode,codesize" />
@@ -106,7 +106,7 @@
     </target>
     
    <!-- <target name="build" depends="prepare, phploc, phpmd, phpcs, phpcpd, pdepend, phpunit, phpcb"/>-->
-    <target name="build" depends="prepare, phploc, phpunit, phpmd"/>
+    <target name="build" depends="prepare, phploc, phpmd, phpcs, phpcpd, pdepend, phpunit, phpcb"/>
    
 
 </project>
