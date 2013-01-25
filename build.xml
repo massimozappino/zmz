@@ -2,7 +2,7 @@
     
     <property name="appDir"   value="${basedir}/application" />
     <property name="testsDir" value="${basedir}/tests" />
-    <property name="coreDir"  value="${basedir}/library/Core" />
+    <property name="coreDir"  value="${basedir}/library/MyApp" />
     <property name="buildDir" value="${basedir}/build" />
     <property name="logsDir"  value="${buildDir}/logs" />
     
