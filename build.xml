@@ -2,7 +2,7 @@
 
 <project name="name-of-project" default="build">
  <target name="build"
-   depends="prepare,lint,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpunit,phpcb"/>
+   depends="prepare,lint,phploc,pdepend,phpcs-ci,phpcpd,phpunit,phpcb"/>
 
  <target name="build-parallel"
    depends="prepare,lint,tools-parallel,phpunit,phpcb"/>
@@ -11,7 +11,6 @@
   <parallel threadCount="2">
    <sequential>
     <antcall target="pdepend"/>
-    <antcall target="phpmd-ci"/>
    </sequential>
    <antcall target="phpcpd"/>
    <antcall target="phpcs-ci"/>
