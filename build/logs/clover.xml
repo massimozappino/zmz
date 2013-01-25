@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1359119706">
-  <project timestamp="1359119706">
+<coverage generated="1359121568">
+  <project timestamp="1359121568">
     <file name="/home/max/Projects/Php/zmz/application/controllers/AccountController.php">
       <class name="AccountController" namespace="global">
         <metrics methods="19" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="574" coveredstatements="0" elements="593" coveredelements="0"/>
