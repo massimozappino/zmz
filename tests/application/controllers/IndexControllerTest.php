@@ -6,6 +6,7 @@ class IndexControllerTest extends ControllerTestCase
     public function testIndexAction()
     {
         $this->dispatch('/');
+        $this->assertRoute('default');
         $this->assertController('index');
         $this->assertAction('index');
     }
