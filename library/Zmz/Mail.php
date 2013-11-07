@@ -42,7 +42,7 @@ class Zmz_Mail extends Zend_Mail
         self::$_defaultCharset = $charset;
     }
 
-    public static function setDefaultFrom($email, $name)
+    public static function setDefaultFrom($email, $name = null)
     {
         self::$_emailFrom = $email;
         self::$_nameFrom = $name;
