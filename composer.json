@@ -1,0 +1,14 @@
+{
+    "name": "massimozappino/zmz",
+    "description": "A collection of libraries that extends the Zend Framework classes and introducing new components",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Massimo Zappino",
+            "email": "massimo.zappino@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    }
+}
