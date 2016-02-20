@@ -201,12 +201,12 @@ class Zmz_Date
         $locale = Zmz_Culture::getLocale();
         $unitArray = Zend_Locale::getTranslationList('Unit');
         $display = array(
-            0 => $unitArray['year'],
-            1 => $unitArray['month'],
-            2 => $unitArray['day'],
-            3 => $unitArray['hour'],
-            4 => $unitArray['minute'],
-            5 => $unitArray['second'],
+            0 => $unitArray['duration-year'],
+            1 => $unitArray['duration-month'],
+            2 => $unitArray['duration-day'],
+            3 => $unitArray['duration-hour'],
+            4 => $unitArray['duration-minute'],
+            5 => $unitArray['duration-second'],
         );
         $eventTimestamp = $date->getTimestamp();
 
