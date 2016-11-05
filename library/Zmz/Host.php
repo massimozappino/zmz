@@ -128,7 +128,7 @@ class Zmz_Host
         }
 
         $url = $scheme . '://' . $hostname;
-        if ($port && $port != '80') {
+        if ($port && ($port != '80' && $port != '443')) {
             $url .= ':' . $port;
         }
 
