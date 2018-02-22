@@ -1,7 +1,7 @@
 {
     "name": "massimozappino/zmz",
     "description": "A collection of libraries that extends the Zend Framework classes and introducing new components",
-    "license": "GPL",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "Massimo Zappino",
